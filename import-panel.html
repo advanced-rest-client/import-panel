@@ -170,7 +170,7 @@ Custom property | Description | Default
           <google-drive-browser
             attr-for-opened="opened"
             opened$="[[withDriveList]]"
-            api-key="10525470235-anf4fj0c73c0of7g2vt62f0lj93bnrtp.apps.googleusercontent.com"
+            api-key="[[apiKey]]"
             mime-type="application/restclient+data"
             on-drive-file-picker-data="_driveContentReady"></google-drive-browser>
         </div>
@@ -236,7 +236,12 @@ Custom property | Description | Default
       withDriveList: {
         type: Boolean,
         reflectToAttribute: true
-      }
+      },
+      /**
+       * Drive API api key value to be passed to the Drive picker.
+       * @type {[type]}
+       */
+      apiKey: String
     },
 
     _computeLoader: function(readingFile, importing) {
