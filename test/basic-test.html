@@ -17,8 +17,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="../../web-component-tester/browser.js"></script>
     <script src="../../iron-test-helpers/test-helpers.js"></script>
     <script src="../../iron-test-helpers/mock-interactions.js"></script>
-
-    <!-- Step 1: import the element to test -->
     <link rel="import" href="../import-panel.html">
   </head>
   <body>
@@ -30,7 +28,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </test-fixture>
 
     <script>
-    /* global fixture, assert */
+    /* global fixture, assert, MockInteractions */
     suite('basic', function() {
 
       var element;
@@ -38,8 +36,60 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         element = fixture('basic');
       });
 
-      test('`import-panel` should be initialized', function() {
-        assert.equal(element.isAttached, true, 'element.isAttached equals true');
+      test('data is not set', function() {
+        assert.isUndefined(element.data);
+      });
+
+      test('hasData is not computed', function() {
+        assert.isUndefined(element.hasData);
+      });
+
+      test('readingFile inherited value', function() {
+        assert.isFalse(element.readingFile);
+      });
+
+      test('withDriveList is not set', function() {
+        assert.isUndefined(element.withDriveList);
+      });
+
+      test('importing is false by default', function() {
+        assert.isFalse(element.importing);
+      });
+
+      test('Drive picker is not opened', function() {
+        var node = element.$$('google-drive-browser');
+        var attrName = node.getAttribute('attr-for-opened');
+        assert.typeOf(attrName, 'string');
+        assert.isFalse(node.hasAttribute(attrName));
+      });
+
+      test('paper-spinner is not in the DOM', function() {
+        var node = element.$$('paper-spinner');
+        assert.notOk(node);
+      });
+
+      test('Opens Google Drive picker', function() {
+        var button = element.$$('[data-action="open-drive-picker"]');
+        MockInteractions.tap(button);
+        assert.equal(element.selectedPage, 1, 'selectedPage is 1');
+        assert.isTrue(element.withDriveList, 'withDriveList is true');
+        var node = element.$$('google-drive-browser');
+        var attrName = node.getAttribute('attr-for-opened');
+        assert.isTrue(node.hasAttribute(attrName), 'Picker is opened');
+      });
+
+      test('Opens data manual entry', function() {
+        var button = element.$$('[data-action="open-text-entry"]');
+        MockInteractions.tap(button);
+        assert.equal(element.selectedPage, 2, 'selectedPage is 2');
+      });
+
+      test('Restores view from the Drive Picket', function() {
+        element.selectedPage = 1;
+        element.withDriveList = true;
+        element.screenBack();
+        assert.equal(element.selectedPage, 0, 'selectedPage is 0');
+        assert.isFalse(element.withDriveList, 'withDriveList is false');
       });
     });
     </script>

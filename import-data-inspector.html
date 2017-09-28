@@ -115,8 +115,8 @@ Custom property | Description | Default
     </template>
 
     <form-action-bar>
-      <paper-button on-tap="_cancel">Cancel</paper-button>
-      <paper-button class="primary-action" on-tap="_import">Import data</paper-button>
+      <paper-button on-tap="_cancel" data-action="cancel-import">Cancel</paper-button>
+      <paper-button class="primary-action" on-tap="_import" data-action="import-data">Import data</paper-button>
     </form-action-bar>
   </template>
   <script>

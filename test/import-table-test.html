@@ -1,0 +1,184 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../iron-test-helpers/test-helpers.js"></script>
+    <script src="../../iron-test-helpers/mock-interactions.js"></script>
+    <link rel="import" href="../import-panel.html">
+    <link rel="import" href="../import-data-inspector.html">
+    <link rel="import" href="../../arc-demo-helpers/data-generator.html">
+  </head>
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <import-data-inspector></import-data-inspector>
+      </template>
+    </test-fixture>
+
+    <script>
+    /* global fixture, assert, MockInteractions, DataGenerator, TestHelpers */
+    var saved = DataGenerator.generateSavedRequestData({
+      requestsSize: 10,
+      projectsSize: 1
+    });
+    var history = DataGenerator.generateHistoryRequestsData({
+      requestsSize: 10
+    });
+    var importData = {
+      kind: 'ARC#Import',
+      createdAt: '2017-09-28T19:43:09.491',
+      version: '9.14.64.305',
+      requests: saved.requests,
+      projects: saved.projects,
+      history: history,
+      variables: DataGenerator.generateVariablesData(),
+      'headers-sets': DataGenerator.generateHeadersSetsData(),
+      cookies: DataGenerator.generateCookiesData(),
+      'url-history': DataGenerator.generateUrlsData({
+        size: 10
+      }),
+      'websocket-url-history': DataGenerator.generateUrlsData({
+        size: 5
+      }),
+      'auth-data': [{_id: 'test', encoded: 'test'}]
+    };
+
+    suite('import table test', function() {
+      var element;
+      setup(function() {
+        element = fixture('basic');
+        element.data = DataGenerator.clone(importData);
+        TestHelpers.forceXIfStamp(element);
+      });
+
+      test('Computes headersSets property', function() {
+        assert.typeOf(element.headersSets, 'array');
+        assert.lengthOf(element.headersSets, 25);
+      });
+
+      test('Computes urls property', function() {
+        assert.typeOf(element.urls, 'array');
+        assert.lengthOf(element.urls, 10);
+      });
+
+      test('Computes socketUrls property', function() {
+        assert.typeOf(element.socketUrls, 'array');
+        assert.lengthOf(element.socketUrls, 5);
+      });
+
+      test('Fires "cancel" event', function(done) {
+        element.addEventListener('cancel', function f() {
+          element.removeEventListener('cancel', f);
+          done();
+        });
+        var button = element.$$('[data-action="cancel-import"]');
+        MockInteractions.tap(button);
+      });
+
+      test('Fires "import" event', function(done) {
+        element.addEventListener('import', function f(e) {
+          element.removeEventListener('import', f);
+          assert.typeOf(e.detail, 'object', 'Detail is an object');
+          assert.equal(e.detail.kind, 'ARC#Import', 'Detail is an import object');
+          done();
+        });
+        var button = element.$$('[data-action="import-data"]');
+        MockInteractions.tap(button);
+      });
+    });
+
+    suite('_getTableData()', function() {
+      var element;
+      setup(function() {
+        element = fixture('basic');
+        element.data = DataGenerator.clone(importData);
+        TestHelpers.forceXIfStamp(element);
+      });
+
+      test('Computes list of selected requests', function() {
+        var result = element._getTableData('import-websocket-url-history-table');
+        assert.typeOf(result, 'array');
+        assert.lengthOf(result, 5);
+      });
+
+      test('Clears "selected" property', function() {
+        var result = element._getTableData('import-websocket-url-history-table');
+        for (var i = 0; i < result.length; i++) {
+          assert.isUndefined(result[i].selected);
+        }
+      });
+
+      test('Returns undefined for hidden table', function() {
+        // dmo-if hiddes the elemen t when falsy instead of removing the element
+        // from the dom.
+        var table = element.$$('import-websocket-url-history-table');
+        table.style.display = 'none';
+        var result = element._getTableData('import-websocket-url-history-table');
+        assert.isUndefined(result);
+      });
+
+      test('Returns undefined if selection is empty', function() {
+        var table = element.$$('import-websocket-url-history-table');
+        table.selectedItems = [];
+        var result = element._getTableData('import-websocket-url-history-table');
+        assert.isUndefined(result);
+      });
+    });
+
+    suite('collectData()', function() {
+      var element;
+      var result;
+      suiteSetup(function() {
+        element = fixture('basic');
+        element.data = DataGenerator.clone(importData);
+        TestHelpers.forceXIfStamp(element);
+      });
+
+      test('Returns an object', function() {
+        result = element.collectData();
+        assert.typeOf(result, 'object');
+      });
+
+      test('Returned data is the ARC import object', function() {
+        result = element.collectData();
+        assert.equal(result.kind, 'ARC#Import');
+      });
+
+      test('Has all data', function() {
+        result = element.collectData();
+        assert.lengthOf(Object.keys(result), 12);
+      });
+
+      test('Will not include removed in table data', function() {
+        var table = element.$$('import-websocket-url-history-table');
+        table.style.display = 'none';
+        result = element.collectData();
+        assert.isUndefined(result['websocket-url-history']);
+        table.style.display = 'block';
+      });
+
+      test('Will contain partial import', function() {
+        var table = element.$$('import-websocket-url-history-table');
+        table.selectedItems = [table.selectedItems[0]];
+        result = element.collectData();
+        assert.lengthOf(result['websocket-url-history'], 1);
+      });
+    });
+    </script>
+
+  </body>
+</html>

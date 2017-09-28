@@ -76,7 +76,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template is="dom-bind" id="demo">
     <div class="vertical-section-container centered">
       <section card>
-        <import-panel on-google-autorize="_onAuth"></import-panel>
+        <import-panel api-key="10525470235-anf4fj0c73c0of7g2vt62f0lj93bnrtp.apps.googleusercontent.com" on-google-autorize="_onAuth"></import-panel>
       </section>
       <arc-data-import></arc-data-import>
       <google-signin-aware client-id="10525470235-anf4fj0c73c0of7g2vt62f0lj93bnrtp.apps.googleusercontent.com" scopes="{{authScope}}" signed-in="{{signedIn}}" is-authorized="{{isAuthorized}}" need-additional-auth="{{needAdditionalAuth}}" on-google-signin-aware-error="handleSignInError" on-google-signin-aware-success="_userAuthorized" on-google-signin-offline-success="handleOffline" on-google-signin-aware-signed-out="handleSignOut" on-signed-in-changed="handleStateChange" on-initialized-changed="handleStateChange"></google-signin-aware>

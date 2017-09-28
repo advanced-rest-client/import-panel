@@ -148,15 +148,15 @@ Custom property | Description | Default
     <iron-pages selected="[[selectedPage]]">
       <section class="import-actions">
         <h2>Import data</h2>
-        <paper-button on-tap="_selectFile" raised>
+        <paper-button on-tap="_selectFile" raised data-action="opend-file-picker">
           Open from file
           <iron-icon icon="arc:insert-drive-file"></iron-icon>
         </paper-button>
-        <paper-button on-tap="_importDrive" raised>
+        <paper-button on-tap="_importDrive" raised data-action="open-drive-picker">
           Open from Drive
           <iron-icon icon="arc:drive"></iron-icon>
         </paper-button>
-        <paper-button on-tap="_pasteData" raised>
+        <paper-button on-tap="_pasteData" raised data-action="open-text-entry">
           Paste text data
           <iron-icon icon="arc:short-text"></iron-icon>
         </paper-button>
@@ -182,8 +182,8 @@ Custom property | Description | Default
         </div>
         <paper-textarea label="Import data" id="manualInput"></paper-textarea>
         <form-action-bar>
-          <paper-button on-tap="screenBack">Cancel</paper-button>
-          <paper-button class="primary-action" on-tap="_importText">Next</paper-button>
+          <paper-button on-tap="screenBack" data-action="cancel-text">Cancel</paper-button>
+          <paper-button class="primary-action" on-tap="_importText" data-action="import-text">Next</paper-button>
         </form-action-bar>
       </section>
       <section>
@@ -212,14 +212,13 @@ Custom property | Description | Default
       },
       // Treue when file is being loaded.
       readingFile: Boolean,
-      // Any error message to print.
-      error: String,
       /**
        * Currently selected import page.
        *
        * -   0 is import options selector
        * -   1 is Google Drive file picker
-       * -   2 is import table preview
+       * -   2 is paste data
+       * -   3 is import table preview
        */
       selectedPage: {
         type: Number,
@@ -361,7 +360,15 @@ Custom property | Description | Default
     _processContent: function(content) {
       var event = this.fire('import-normalize', {
         content: content,
+      }, {
+        cancelable: true
       });
+
+      if (!event.detail.result) {
+        let err = 'Data importer not in the DOM.';
+        this._notifyError(err);
+        return Promise.reject(new Error(err));
+      }
 
       return event.detail.result.then(result => {
         this.data = result;
@@ -386,15 +393,25 @@ Custom property | Description | Default
     // Sends the `import-data` custom event to the import element to save the data
     _importData: function(e) {
       var data = e.detail;
-      this.importing = true;
+      this._setImporting(true);
       var event = this.fire('import-data', {
         content: data,
+      }, {
+        cancelable: true
       });
 
-      event.detail.result.then(errors => {
+      if (!event.detail.result) {
+        let err = 'Data importer not in the DOM.';
+        this._notifyError(err);
+        throw new Error(err);
+      }
+
+      // Returns value for tests.
+      return event.detail.result.then(errors => {
         this.data = undefined;
         this.selectedPage = 0;
         this.$.imported.opened = true;
+        this._setImporting(false);
         if (errors) {
           console.error(errors);
         }
@@ -402,6 +419,7 @@ Custom property | Description | Default
       .catch(cause => {
         this._notifyError(cause.message);
         console.error(cause);
+        this._setImporting(false);
         this.fire('app-log', {
           'message': ['import:data-save', cause.message],
           'level': 'error'
