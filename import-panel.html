@@ -122,7 +122,7 @@ Custom property | Description | Default
     }
     </style>
     <template is="dom-if" if="[[_computeLoader(readingFile, importing)]]">
-      <paper-spinner active="[[importFileReader]]" alt="Preparing data"></paper-spinner>
+      <paper-spinner active="[[readingFile]]" alt="Preparing data"></paper-spinner>
     </template>
 
     <template is="dom-if" if="[[error]]">
