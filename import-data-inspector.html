@@ -205,6 +205,9 @@ Custom property | Description | Default
         if (!selected || !selected.length) {
           return;
         }
+        selected.forEach(item => {
+          delete item.selected;
+        });
         return selected;
       },
       /**
