@@ -14,6 +14,7 @@ the License.
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../form-action-bar/form-action-bar.html">
 <link rel="import" href="../date-time/date-time.html">
+<link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="import-requests-table.html">
 <link rel="import" href="import-history-table.html">
 <link rel="import" href="import-variables-table.html">
@@ -51,8 +52,7 @@ Custom property | Description | Default
 `--import-table-list-item` | Mixin applied to data table's items | `{}`
 
 @element import-panel
-@demo demo/index.html
-@demo demo/index.html
+@demo demo/inspector.html Table demo
 -->
 <dom-module id="import-data-inspector">
   <template>
@@ -115,8 +115,8 @@ Custom property | Description | Default
     </template>
 
     <form-action-bar>
-      <paper-button on-tap="_cancel">Cancel</paper-button>
-      <paper-button class="primary-action" on-tap="_import">Import data</paper-button>
+      <paper-button on-tap="_cancel" data-action="cancel-import">Cancel</paper-button>
+      <paper-button class="primary-action" on-tap="_import" data-action="import-data">Import data</paper-button>
     </form-action-bar>
   </template>
   <script>
@@ -204,6 +204,9 @@ Custom property | Description | Default
         if (!selected || !selected.length) {
           return;
         }
+        selected.forEach(item => {
+          delete item.selected;
+        });
         return selected;
       },
       /**

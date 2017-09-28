@@ -1,0 +1,89 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../iron-test-helpers/test-helpers.js"></script>
+    <script src="../../iron-test-helpers/mock-interactions.js"></script>
+    <script src="test-helper.js"></script>
+    <link rel="import" href="../../arc-data-import/arc-data-import.html">
+    <link rel="import" href="../import-panel.html">
+    <link rel="import" href="../../fetch-polyfill/fetch-polyfill.html">
+  </head>
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <import-panel></import-panel>
+        <arc-data-import></arc-data-import>
+      </template>
+    </test-fixture>
+
+    <script>
+    /* global fixture, assert, MockInteractions, DataTestHelper */
+    suite('basic', function() {
+      var importData;
+      suiteSetup(function() {
+        return DataTestHelper.getFile('import-data-test.json')
+        .then(response => {
+          importData = response;
+        });
+      });
+
+      var element;
+      setup(function() {
+        element = fixture('basic')[0];
+        element.selectedPage = 2;
+        element.$$('#manualInput').value = importData;
+      });
+
+      function normalize() {
+        var button = element.$$('[data-action="import-text"]');
+        MockInteractions.tap(button);
+      }
+
+      test('Sends the import-normalize custom event', function(done) {
+        element.addEventListener('import-normalize', function f(e) {
+          element.removeEventListener('import-normalize', f);
+          assert.isTrue(e.cancelable, 'Event is cancelable.');
+          assert.equal(e.detail.content, importData);
+          done();
+        });
+        normalize();
+      });
+
+      test('_processContent returns a Promise', function() {
+        return element._processContent(importData)
+        .then(() => {});
+      });
+
+      test('Opens a table after normalization', function() {
+        return element._processContent(importData)
+        .then(() => {
+          assert.equal(element.selectedPage, 3);
+        });
+      });
+
+      test('Sets the data after normalization', function() {
+        return element._processContent(importData)
+        .then(() => {
+          assert.typeOf(element.data, 'object');
+        });
+      });
+    });
+    </script>
+
+  </body>
+</html>
