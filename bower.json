@@ -8,11 +8,23 @@
   ],
   "keywords": [
     "web-components",
-    "polymer"
+    "polymer",
+    "import",
+    "datastore"
   ],
   "private": true,
   "main": [
-    "import-panel.html"
+    "import-panel.html",
+    "import-data-inspector.html",
+    "import-table-behavior.html",
+    "import-auth-data-table.html",
+    "import-cookies-table.html",
+    "import-headers-sets-table.html",
+    "import-history-table.html",
+    "import-requests-table.html",
+    "import-url-history-table.html",
+    "import-variables-table.html",
+    "import-websocket-url-history-table.html"
   ],
   "repository": {
     "type": "git",
