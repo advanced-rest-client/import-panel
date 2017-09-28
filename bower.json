@@ -33,7 +33,6 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^1.9.2",
     "file-reader": "advanced-rest-client/file-reader#^1.0.3",
-    "error-message": "advanced-rest-client/error-message#^0.1.1",
     "paper-spinner": "PolymerElements/paper-spinner#<2",
     "paper-button": "PolymerElements/paper-button#<2",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#<2",

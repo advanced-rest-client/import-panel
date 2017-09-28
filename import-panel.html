@@ -12,7 +12,6 @@ License for the specific language governing permissions and limitations under
 the License.
 -->
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../error-message/error-message.html">
 <link rel="import" href="../google-drive-browser/google-drive-browser.html">
 <link rel="import" href="../file-reader/file-reader.html">
 <link rel="import" href="../paper-button/paper-button.html">
@@ -26,7 +25,6 @@ the License.
 <link rel="import" href="../form-action-bar/form-action-bar.html">
 <link rel="import" href="../paper-toast/paper-toast.html">
 <link rel="import" href="import-data-inspector.html">
-
 <!--
 The data import view for ARC.
 
@@ -144,15 +142,7 @@ Custom property | Description | Default
     }
     </style>
     <template is="dom-if" if="[[_computeLoader(readingFile, importing)]]">
-      <paper-spinner active="[[readingFile]]" alt="Preparing data"></paper-spinner>
-    </template>
-
-    <template is="dom-if" if="[[error]]">
-      <div class="error">
-        <error-message>
-          <p>[[error]]</p>
-        </error-message>
-      </div>
+      <paper-spinner alt="Preparing data"></paper-spinner>
     </template>
 
     <iron-pages selected="[[selectedPage]]">
@@ -285,22 +275,33 @@ Custom property | Description | Default
     _resetFileDrop: function() {
       this.$$('input[type="file"]').value = null;
     },
+    /**
+     * Notifies the user about error.
+     *
+     * @param {String} message Message to display
+     */
+    _notifyError: function(message) {
+      this.$.error.text = message;
+      this.$.error.opened = true;
+    },
 
     /**
      * A handler called when the file can't be read.
      */
     _importFileError: function(e) {
+      var message = e.message || e.detail.message;
       this.readingFile = false;
-      this.error = 'The application was unable to read the file. ' + e.message;
+      this._notifyError('The application was unable to read the file. ' + message);
+      console.error(e);
       this._resetFileDrop();
-      this.fire('app-log', {'message': ['arc-data-import::_importFileError', e], 'level': 'error'});
+      this.fire('app-log', {'message': ['import:file-read', message], 'level': 'error'});
       this.fire('send-analytics', {
         type: 'exception',
-        description: e.detail.message,
+        description: message,
         fatal: true
       });
     },
-
+    // Moves the view to previous screen.
     screenBack: function() {
       var page = this.selectedPage;
       if (page === 0) {
@@ -310,21 +311,20 @@ Custom property | Description | Default
       if (this.withDriveList) {
         this.withDriveList = false;
       }
-      if (this.error) {
-        this.error = undefined;
-      }
     },
-
+    // Opend import from Google Drive view
     _importDrive: function() {
       this.selectedPage = 1;
       this.withDriveList = true;
     },
-
+    // Opens paste from clipboard view
     _pasteData: function() {
       this.selectedPage = 2;
     },
-
+    // Handler for the `drive-file-picker-data` event with drive file data
     _driveContentReady: function(e) {
+      e.stopPropagation();
+      e.preventDefault();
       this._processContent(e.detail.content);
     },
 
@@ -336,30 +336,46 @@ Custom property | Description | Default
       this.readingFile = false;
       this._processContent(e.detail.result);
     },
-
+    // Handles import from text action.
     _importText: function() {
       var value = this.$$('#manualInput').value;
       if (!value) {
         return;
       }
-      this._processContent(value);
+      return this._processContent(value);
     },
-
+    /**
+     * Processes import file content by sending `import-normalize` custom
+     * event that should be handled by `arc-data-import` element.
+     *
+     * When data are normalized it switches to data table view.
+     *
+     * @param {String} content Read data content
+     * @return {Promise} A promise resolved when data were processed.
+     */
     _processContent: function(content) {
       var event = this.fire('import-normalize', {
         content: content,
       });
 
-      event.detail.result.then(result => {
+      return event.detail.result.then(result => {
         this.data = result;
-        this.error = undefined;
         this.selectedPage = 3;
       })
       .catch(cause => {
         this.data = undefined;
-        this.error = cause.message;
-        this.$.error.text = cause.message;
-        this.$.error.opened = true;
+        this._notifyError(cause.message);
+        console.error(cause);
+        this.fire('app-log', {
+          'message': ['import:content-process', cause.message],
+          'level': 'error'
+        });
+        this.fire('send-analytics', {
+          type: 'exception',
+          description: cause.message,
+          fatal: true
+        });
+        throw cause;
       });
     },
     // Sends the `import-data` custom event to the import element to save the data
@@ -372,7 +388,6 @@ Custom property | Description | Default
 
       event.detail.result.then(errors => {
         this.data = undefined;
-        this.error = undefined;
         this.selectedPage = 0;
         this.$.imported.opened = true;
         if (errors) {
@@ -380,8 +395,18 @@ Custom property | Description | Default
         }
       })
       .catch(cause => {
-        this.$.error.text = cause.message;
-        this.$.error.opened = true;
+        this._notifyError(cause.message);
+        console.error(cause);
+        this.fire('app-log', {
+          'message': ['import:data-save', cause.message],
+          'level': 'error'
+        });
+        this.fire('send-analytics', {
+          type: 'exception',
+          description: cause.message,
+          fatal: true
+        });
+        throw cause;
       });
     }
   });
