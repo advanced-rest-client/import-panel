@@ -14,7 +14,7 @@
   "author": "The Advanced REST client authors <arc@mulesoft.com>",
   "scripts": {
     "serve": "node_modules/.bin/polymer serve",
-    "lint": "node_modules/.bin/polymer lint import-panel.html --rules polymer-1",
+    "lint": "node_modules/.bin/polymer lint import-panel.html import-data-inspector.html import-table-behavior.html import-auth-data-table.html import-cookies-table.html import-headers-sets-table.html import-history-table.html import-requests-table.html import-url-history-table.html import-variables-table.html import-websocket-url-history-table.html",
     "test-sauce": "node_modules/.bin/polymer test --plugin sauce --job-name \"import-panel:local-test\"",
     "test": "node_modules/.bin/polymer test --plugin local",
     "deps": "npm install --quiet && bower install --quiet",
