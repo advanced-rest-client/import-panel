@@ -204,7 +204,10 @@ Custom property | Description | Default
     is: 'import-panel',
     properties: {
       // Loadded and normalized import data
-      data: Object,
+      data: {
+        type: Object,
+        notify: true
+      },
       // Computed value, true if import data are present.
       hasData: {
         type: Boolean,
