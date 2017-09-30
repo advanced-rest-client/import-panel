@@ -1,3 +1,13 @@
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/advanced-rest-client/import-panel/compare/0.1.1...0.1.2) (2017-09-30)
+
+
+### Update
+
+* Added notification for the `data` property. ([56c5af17e3ff8a61588bed2e779bee5cd0775dfb](https://github.com/advanced-rest-client/import-panel/commit/56c5af17e3ff8a61588bed2e779bee5cd0775dfb))
+
+
+
 <a name="0.1.1"></a>
 ## 0.1.1 (2017-09-28)
 
