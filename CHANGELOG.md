@@ -1,3 +1,13 @@
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/advanced-rest-client/import-panel/compare/0.1.2...0.1.3) (2018-02-15)
+
+
+### Fix
+
+* Fixed tests ([cfd5b0a891497bb86c6eefb7eb3f0fbded4b4b3c](https://github.com/advanced-rest-client/import-panel/commit/cfd5b0a891497bb86c6eefb7eb3f0fbded4b4b3c))
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/advanced-rest-client/import-panel/compare/0.1.1...0.1.2) (2017-09-30)
 
