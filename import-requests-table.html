@@ -36,10 +36,12 @@ An element to display list of request objects to import.
       margin-left: 32px;
     }
 
-    .project-info::before {
-      content: ',';
-      display: inline-block;
-      width: 8px;
+    .project-header {
+      @apply --paper-font-headline;
+      height: 48px;
+      @apply --layout-horizontal;
+      @apply --layout-center;
+      padding-left: 12px;
     }
     </style>
     <div class="title" on-tap="toggleOpened">
@@ -54,7 +56,7 @@ An element to display list of request objects to import.
         </span>
         <span class="selected-counter hiddable">[[selectedItems.length]] item(s) selected</span>
       </section>
-      <template is="dom-repeat" id="list" items="[[data]]">
+      <template is="dom-repeat" items="[[nonProjects]]">
         <div class="list-item">
           <paper-icon-item>
             <paper-checkbox checked="[[item.selected]]" item-icon  aria-label$="Select/Deselect [[item.url]]"></paper-checkbox>
@@ -62,15 +64,33 @@ An element to display list of request objects to import.
               <http-method-label method="[[item.method]]"></http-method-label>
             </span>
             <paper-item-body two-line>
-              <div>[[item.url]]</div>
+              <div>[[item.name]]</div>
               <div secondary>
-                [[item.name]]
-                <template is="dom-if" if="[[item.legacyProject]]">
-                  <span class="project-info">Project: [[_computeProjectLabel(item.legacyProject, projects)]]</span>
-                </template>
+                [[item.url]]
               </div>
             </paper-item-body>
           </paper-icon-item>
+        </div>
+      </template>
+      <template is="dom-repeat" items="[[projectsData]]">
+        <div class="project-block">
+          <div class="project-header">Project: [[_computeProjectLabel(item.projectId, projects)]]</div>
+          <template is="dom-repeat" items="[[item.requests]]">
+            <div class="list-item">
+              <paper-icon-item>
+                <paper-checkbox checked="[[item.selected]]" item-icon  aria-label$="Select/Deselect [[item.url]]"></paper-checkbox>
+                <span class="method-label">
+                  <http-method-label method="[[item.method]]"></http-method-label>
+                </span>
+                <paper-item-body two-line>
+                  <div>[[item.name]]</div>
+                  <div secondary>
+                    [[item.url]]
+                  </div>
+                </paper-item-body>
+              </paper-icon-item>
+            </div>
+          </template>
         </div>
       </template>
     </iron-collapse>
@@ -86,7 +106,40 @@ An element to display list of request objects to import.
 
       properties: {
         // List of projects included in the import
-        projects: Array
+        projects: Array,
+        nonProjects: Array,
+        projectsData: Array
+      },
+
+      observers: [
+        '_computeRequestsView(data)'
+      ],
+
+      _computeRequestsView: function(data) {
+        if (!data) {
+          return;
+        }
+        let nonProjects = [];
+        let projectsData = {};
+        data.forEach((item) => {
+          if (item.legacyProject) {
+            if (item.legacyProject in projectsData) {
+              projectsData[item.legacyProject].push(item);
+            } else {
+              projectsData[item.legacyProject] = [item];
+            }
+          } else {
+            nonProjects.push(item);
+          }
+        });
+        this.set('nonProjects', nonProjects);
+        projectsData = Object.keys(projectsData).map((id) => {
+          return {
+            projectId: id,
+            requests: projectsData[id]
+          };
+        });
+        this.set('projectsData', projectsData);
       },
       // Computes lable for a project
       _computeProjectLabel: function(id, list) {
@@ -98,8 +151,18 @@ An element to display list of request objects to import.
           return '';
         }
         return project.name;
-      }
+      },
 
+      _onSelectItem: function(e) {
+        var target = Polymer.dom(e).path[0];
+        if (target.localName === 'input' ||
+            target.localName === 'button' ||
+            target.localName === 'select' ||
+            target.localName === 'paper-button') {
+          return;
+        }
+        debugger;
+      }
     });
   </script>
 </dom-module>
