@@ -30,7 +30,14 @@ An element to display list of variables to import.
 -->
 <dom-module id="import-variables-table">
   <template strip-whitespace>
-    <style include="import-table-common-styles"></style>
+    <style include="import-table-common-styles">
+    .var-name {
+      font-weight: 500;
+    }
+    .var-value {
+      margin-left: 8px;
+    }
+    </style>
     <div class="title" on-tap="toggleOpened">
       <h3>Variables ([[selectedItems.length]])</h3>
       <paper-icon-button icon="arc:keyboard-arrow-down" class$="toggle-icon [[_computeToggleClass(opened)]]"></paper-icon-button>
@@ -48,7 +55,7 @@ An element to display list of variables to import.
           <paper-icon-item>
             <paper-checkbox checked="[[item.selected]]" item-icon  aria-label$="Select/Deselect [[item.url]]"></paper-checkbox>
             <paper-item-body two-line>
-              <div>[[item.variable]] => [[item.value]]</div>
+              <div><span class="var-name">[[item.variable]]</span>: <span class="var-value">[[item.value]]</span></div>
               <div secondary>
                 Environment: [[item.environment]]
               </div>
