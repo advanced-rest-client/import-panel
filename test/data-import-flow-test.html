@@ -18,16 +18,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="../../iron-test-helpers/test-helpers.js"></script>
     <script src="../../iron-test-helpers/mock-interactions.js"></script>
     <script src="test-helper.js"></script>
+    <script src="../../chance/dist/chance.min.js"></script>
+    <script src="../../arc-demo-helpers/data-generator.js"></script>
     <link rel="import" href="../import-panel.html">
-    <link rel="import" href="../../arc-demo-helpers/data-generator.html">
-    <link rel="import" href="../../arc-data-import/arc-data-import.html">
   </head>
   <body>
 
     <test-fixture id="basic">
       <template>
         <import-panel></import-panel>
-        <arc-data-import></arc-data-import>
       </template>
     </test-fixture>
 
@@ -35,6 +34,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     /* global fixture, assert, DataGenerator */
     suite('basic', function() {
       var importData;
+      var importCallback = function(e) {
+        e.detail.result = Promise.resolve();
+      };
       suiteSetup(function() {
         var saved = DataGenerator.generateSavedRequestData({
           requestsSize: 10,
@@ -56,11 +58,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           'url-history': DataGenerator.generateUrlsData(),
           'websocket-url-history': DataGenerator.generateUrlsData()
         };
+        document.body.addEventListener('import-data', importCallback);
+      });
+
+      suiteTeardown(function() {
+        document.body.removeEventListener('import-data', importCallback);
       });
 
       var element;
       setup(function() {
-        element = fixture('basic')[0];
+        element = fixture('basic');
         element.data = DataGenerator.clone(importData);
         element.selectedPage = 3;
       });
