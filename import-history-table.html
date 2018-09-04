@@ -23,12 +23,6 @@ the License.
 <link rel="import" href="import-table-common-styles.html">
 <link rel="import" href="import-table-mixin.html">
 
-<!--
-An element to display list of history objects to import.
-
-@element import-history-table
-@demo demo/index.html
--->
 <dom-module id="import-history-table">
   <template strip-whitespace>
     <style include="import-table-common-styles">
@@ -48,7 +42,7 @@ An element to display list of history objects to import.
       <template is="dom-repeat" id="list" items="[[data]]">
         <div class="list-item">
           <paper-icon-item>
-            <paper-checkbox checked="[[item.selected]]" item-icon  aria-label$="Select/Deselect [[item.url]]"></paper-checkbox>
+            <paper-checkbox checked="[[item.selected]]" slot="item-icon"  aria-label$="Select/Deselect [[item.url]]"></paper-checkbox>
             <span class="method-label">
               <http-method-label method="[[item.method]]"></http-method-label>
             </span>
@@ -65,13 +59,13 @@ An element to display list of history objects to import.
   <script>
   /* global ArcComponents */
   /**
-   * An element to display list of URLs hsitory to import.
+   * An element to display list of history objects to import.
    *
    * @customElement
    * @polymer
    * @demo demo/index.html
    * @memberof UiElements
-   * ArcComponents.ImportTableMixin
+   * @appliesMixin ArcComponents.ImportTableMixin
    */
   class ImportHistoryTable extends ArcComponents.ImportTableMixin(Polymer.Element) {
     static get is() {return 'import-history-table';}

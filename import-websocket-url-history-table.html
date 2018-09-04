@@ -30,10 +30,7 @@ the License.
     </div>
     <iron-collapse opened="[[opened]]">
       <section class$="table-options [[_computeTableClass(hasSelection)]]">
-        <span>
-          <paper-checkbox class="select-all" checked="{{allSelected}}"></paper-checkbox>
-          <paper-tooltip animation-delay="200" position="right" offset="0">Select / deselect all</paper-tooltip>
-        </span>
+        <paper-checkbox class="select-all" checked="{{allSelected}}" title="Select / deselect all"></paper-checkbox>
         <span class="selected-counter hiddable">[[selectedItems.length]] item(s) selected</span>
       </section>
       <template is="dom-repeat" id="list" items="[[data]]">
@@ -58,7 +55,7 @@ the License.
    * @polymer
    * @demo demo/index.html
    * @memberof UiElements
-   * ArcComponents.ImportTableMixin
+   * @appliesMixin ArcComponents.ImportTableMixin
    */
   class ImportWebsocketUrlHistoryTable extends ArcComponents.ImportTableMixin(Polymer.Element) {
     static get is() {return 'import-websocket-url-history-table';}

@@ -103,7 +103,7 @@ the License.
    * @polymer
    * @demo demo/index.html
    * @memberof UiElements
-   * ArcComponents.ImportTableMixin
+   * @appliesMixin ArcComponents.ImportTableMixin
    */
   class ImportRequestsTable extends ArcComponents.ImportTableMixin(Polymer.Element) {
     static get is() {return 'import-requests-table';}
@@ -153,7 +153,7 @@ the License.
       if (!id || !list || !list.length) {
         return '';
       }
-      const project = list.find(item => item._id === id);
+      const project = list.find((item) => item._id === id);
       if (!project) {
         return '';
       }
