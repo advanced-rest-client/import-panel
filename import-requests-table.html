@@ -16,7 +16,6 @@ the License.
 <link rel="import" href="../arc-icons/arc-icons.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../http-method-label/http-method-label.html">
 <link rel="import" href="../paper-item/paper-icon-item.html">
 <link rel="import" href="../paper-item/paper-item-body.html">
@@ -38,20 +37,17 @@ the License.
     }
 
     .project-block {
-      background-color: var(--import-table-title-request-project-background-color, #EFEBE9);
+      background-color: var(--import-table-title-request-project-background-color, #F5F5F5);
       margin-bottom: 12px;
     }
     </style>
-    <div class="title" on-tap="toggleOpened">
+    <div class="title" on-click="toggleOpened">
       <h3>Requests ([[selectedItems.length]])</h3>
       <paper-icon-button icon="arc:keyboard-arrow-down" class$="toggle-icon [[_computeToggleClass(opened)]]"></paper-icon-button>
     </div>
     <iron-collapse opened="[[opened]]">
       <section class$="table-options [[_computeTableClass(hasSelection)]]">
-        <span>
-          <paper-checkbox class="select-all" checked="{{allSelected}}"></paper-checkbox>
-          <paper-tooltip animation-delay="200" position="right" offset="0">Select / deselect all</paper-tooltip>
-        </span>
+        <paper-checkbox class="select-all" checked="{{allSelected}}" title="Select / deselect all"></paper-checkbox>
         <span class="selected-counter hiddable">[[selectedItems.length]] item(s) selected</span>
       </section>
       <template is="dom-repeat" items="[[nonProjects]]" id="itemsRepeater">
@@ -71,9 +67,9 @@ the License.
         </div>
       </template>
       <template is="dom-repeat" items="[[projectsData]]">
-        <div class="project-block">
+        <div class="project-block" data-project$="[[item.projectId]]">
           <div class="project-header">Project: [[_computeProjectLabel(item.projectId, projects)]]</div>
-          <template is="dom-repeat" items="[[item.requests]]" data-project$="[[item.projectId]]" as="request">
+          <template is="dom-repeat" items="[[item.requests]]" as="request">
             <div class="list-item" data-source$="[[item.projectId]]">
               <paper-icon-item>
                 <paper-checkbox checked="[[request.selected]]" slot="item-icon" aria-label$="Select/Deselect [[request.url]]"></paper-checkbox>
@@ -135,6 +131,14 @@ the License.
           } else {
             projectsData[item.legacyProject] = [item];
           }
+        } else if (item.projects && item.projects.length) {
+          for (let i = 0, len = item.projects.length; i < len; i++) {
+            if (item.projects[i] in projectsData) {
+              projectsData[item.projects[i]].push(item);
+            } else {
+              projectsData[item.projects[i]] = [item];
+            }
+          }
         } else {
           nonProjects.push(item);
         }
@@ -162,12 +166,16 @@ the License.
 
     _onSelectItem(e) {
       const path = e.composedPath();
-      const target = path[0];
-      if (target.localName === 'input' ||
-          target.localName === 'button' ||
-          target.localName === 'select' ||
-          target.localName === 'paper-button') {
+      if (path[0].localName === 'h3') {
         return;
+      }
+      let target;
+      const root = this.shadowRoot;
+      for (let i = 0; i < path.length; i++) {
+        if (path[i].getRootNode() === root) {
+          target = path[i];
+          break;
+        }
       }
       const source = this._findSource(path);
       if (!source) {
@@ -176,14 +184,17 @@ the License.
       let selector;
       let itemKey;
       if (source !== 'itemsRepeater') {
-        selector = '[data-project="' + source + '"]';
+        selector = '[data-project="' + source + '"] dom-repeat';
         itemKey = 'request';
       } else {
         selector = '#' + source;
         itemKey = 'item';
       }
       const repeater = this.shadowRoot.querySelector(selector);
-      const model = repeater.modelForElement(e.target);
+      const model = repeater.modelForElement(target);
+      if (!model) {
+        return;
+      }
       const item = model.get(itemKey);
       let state;
       if (this.$.selector.isSelected(item)) {

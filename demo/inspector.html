@@ -10,6 +10,9 @@
   <link rel="import" href="../../polymer/lib/elements/custom-style.html">
   <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
   <link rel="import" href="../../paper-toast/paper-toast.html">
+  <link rel="import" href="../../arc-electron-default-theme/arc-electron-default-theme.html">
+  <link rel="import" href="../../app-pouchdb/pouchdb.html">
+  <link rel="import" href="../../arc-data-generator/arc-data-generator.html">
   <link rel="import" href="../import-data-inspector.html">
   <custom-style>
     <style>
@@ -18,38 +21,9 @@
       background-color: #EEEEEE;
     }
 
-    .vertical-section-container {
+    .card {
       max-width: 1200px;
       margin: 24px auto;
-    }
-
-     :root {
-      --primary-color: #00A2DF;
-      --accent-color: #FF8A65;
-      --action-button: {
-        background-color: var(--primary-color);
-        color: #fff;
-      };
-      --empty-info: {
-        color: rgba(0, 0, 0, 0.74);
-        font-size: 16px;
-      };
-      --arc-font-headline: {
-        @apply --paper-font-headline;
-      };
-      --arc-font-subhead: {
-        @apply --paper-font-subhead;
-      };
-      --arc-font-body1: {
-        @apply --paper-font-body1;
-      };
-      --arc-font-title: {
-        @apply --paper-font-title;
-      }
-      --paper-progress-active-color: var(--primary-color);
-    }
-
-    section[card] {
       padding: 20px;
       background: white;
     }
@@ -60,11 +34,10 @@
 <body unresolved>
   <dom-bind id="demo">
     <template>
-      <div class="vertical-section-container centered">
-        <section card>
-          <import-data-inspector data="[[data]]" on-cancel="cancelled" on-import="imported"></import-data-inspector>
-        </section>
-      </div>
+      <section class="centered card" role="main">
+        <import-data-inspector data="[[data]]" on-cancel="cancelled" on-import="imported"></import-data-inspector>
+      </section>
+
       <paper-toast text="Cancel has been pressed" id="cancelToast"></paper-toast>
       <paper-toast text="Import data has been pressed" id="importToast"></paper-toast>
     </template>
@@ -87,17 +60,18 @@
         requestsSize: 120
       });
       scope.data = {
-        kind: 'ARC#import',
-        createdAt: '2017-09-28T19:43:09.491',
-        version: '9.14.64.305',
-        requests: saved.requests,
-        projects: saved.projects,
-        history: history,
-        variables: DataGenerator.generateVariablesData(),
+        'kind': 'ARC#import',
+        'createdAt': '2017-09-28T19:43:09.491',
+        'version': '9.14.64.305',
+        'requests': saved.requests,
+        'projects': saved.projects,
+        'history': history,
+        'variables': DataGenerator.generateVariablesData(),
         'headers-sets': DataGenerator.generateHeadersSetsData(),
-        cookies: DataGenerator.generateCookiesData(),
+        'cookies': DataGenerator.generateCookiesData(),
         'url-history': DataGenerator.generateUrlsData(),
-        'websocket-url-history': DataGenerator.generateUrlsData()
+        'websocket-url-history': DataGenerator.generateUrlsData(),
+        'auth-data': DataGenerator.generateBasicAuthData()
       };
     };
     window.addEventListener('WebComponentsReady', function() {

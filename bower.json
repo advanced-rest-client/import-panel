@@ -49,7 +49,9 @@
     "arc-data-import": "advanced-rest-client/arc-data-import#2.0.0-preview",
     "google-signin": "GoogleWebComponents/google-signin#^2.0.0",
     "paper-checkbox": "PolymerElements/paper-checkbox#^2.0.0",
-    "arc-electron-default-theme": "advanced-rest-client/arc-electron-default-theme#2.0.0-preview"
+    "arc-electron-default-theme": "advanced-rest-client/arc-electron-default-theme#2.0.0-preview",
+    "app-pouchdb": "PolymerElements/app-pouchdb#^2.1.1",
+    "arc-data-generator": "advanced-rest-client/arc-data-generator#^1.0.0"
   },
   "ignore": [
     "**/.*",

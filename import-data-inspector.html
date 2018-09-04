@@ -56,31 +56,31 @@ the License.
     </template>
 
     <template is="dom-if" if="[[data.history.length]]">
-      <import-history-table data="[[data.history]]"></import-history-table>
+      <import-history-table table-title="History" table-title="History" data="[[data.history]]"></import-history-table>
     </template>
 
     <template is="dom-if" if="[[data.variables.length]]">
-      <import-variables-table data="[[data.variables]]"></import-variables-table>
+      <import-variables-table table-title="Variables" data="[[data.variables]]"></import-variables-table>
     </template>
 
     <template is="dom-if" if="[[headersSets.length]]">
-      <import-headers-sets-table data="[[headersSets]]"></import-headers-sets-table>
+      <import-headers-sets-table table-title="Headers sets" data="[[headersSets]]"></import-headers-sets-table>
     </template>
 
     <template is="dom-if" if="[[data.cookies.length]]">
-      <import-cookies-table data="[[data.cookies]]"></import-cookies-table>
+      <import-cookies-table table-title="Cookies" data="[[data.cookies]]"></import-cookies-table>
     </template>
 
     <template is="dom-if" if="[[authData.length]]">
-      <import-auth-data-table data="[[authData]]"></import-auth-data-table>
+      <import-auth-data-table table-title="Authorization data" data="[[authData]]"></import-auth-data-table>
     </template>
 
     <template is="dom-if" if="[[urls.length]]">
-      <import-url-history-table data="[[urls]]"></import-url-history-table>
+      <import-url-history-table table-title="URL history for autocomplete" data="[[urls]]"></import-url-history-table>
     </template>
 
     <template is="dom-if" if="[[socketUrls.length]]">
-      <import-websocket-url-history-table data="[[socketUrls]]"></import-websocket-url-history-table>
+      <import-websocket-url-history-table table-title="Web socket URL history for autocomplete" data="[[socketUrls]]"></import-websocket-url-history-table>
     </template>
 
     <form-action-bar>

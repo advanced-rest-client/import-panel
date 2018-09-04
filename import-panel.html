@@ -76,7 +76,7 @@ the License.
 
     iron-pages,
     iron-pages > * {
-      height: inherit;
+      height: 100%;
     }
 
     .drive-browser {
@@ -109,22 +109,22 @@ the License.
     <iron-pages selected="[[selectedPage]]">
       <section class="import-actions">
         <h2>Import data</h2>
-        <paper-button on-tap="_selectFile" raised data-action="opend-file-picker">
+        <paper-button on-click="_selectFile" raised data-action="opend-file-picker">
           Open from file
           <iron-icon icon="arc:insert-drive-file"></iron-icon>
         </paper-button>
-        <paper-button on-tap="_importDrive" raised data-action="open-drive-picker">
+        <paper-button on-click="_importDrive" raised data-action="open-drive-picker">
           Open from Drive
           <iron-icon icon="arc:drive"></iron-icon>
         </paper-button>
-        <paper-button on-tap="_pasteData" raised data-action="open-text-entry">
+        <paper-button on-click="_pasteData" raised data-action="open-text-entry">
           Paste text data
           <iron-icon icon="arc:short-text"></iron-icon>
         </paper-button>
       </section>
       <section class="drive-browser">
         <div class="title-action">
-          <paper-icon-button icon="arc:arrow-back" on-tap="screenBack"></paper-icon-button>
+          <paper-icon-button icon="arc:arrow-back" on-click="screenBack"></paper-icon-button>
           <h2>Import file from Google Drive</h2>
         </div>
         <div class="card">
@@ -138,18 +138,18 @@ the License.
       </section>
       <section class="text-import">
         <div class="title-action">
-          <paper-icon-button icon="arc:arrow-back" on-tap="screenBack"></paper-icon-button>
+          <paper-icon-button icon="arc:arrow-back" on-click="screenBack"></paper-icon-button>
           <h2>Paste data</h2>
         </div>
         <paper-textarea label="Import data" id="manualInput"></paper-textarea>
         <form-action-bar>
-          <paper-button on-tap="screenBack" data-action="cancel-text">Cancel</paper-button>
-          <paper-button class="primary-action" on-tap="_importText" data-action="import-text">Next</paper-button>
+          <paper-button on-click="screenBack" data-action="cancel-text">Cancel</paper-button>
+          <paper-button class="primary-action" on-click="_importText" data-action="import-text">Next</paper-button>
         </form-action-bar>
       </section>
       <section>
         <div class="title-action">
-          <paper-icon-button icon="arc:arrow-back" on-tap="screenBack"></paper-icon-button>
+          <paper-icon-button icon="arc:arrow-back" on-click="screenBack"></paper-icon-button>
           <h2>Inspect data</h2>
         </div>
         <import-data-inspector data="[[data]]" on-cancel="screenBack" on-import="_importData"></import-data-inspector>
@@ -269,9 +269,11 @@ the License.
     }
     /**
      * Handler called when file has been added by the user.
+     *
+     * @param {Event} e
      */
     _onImportFile(e) {
-      var file = e.target.files[0];
+      const file = e.target.files[0];
       if (!file) {
         return;
       }
@@ -292,23 +294,20 @@ the License.
     }
     /**
      * A handler called when the file can't be read.
+     *
+     * @param {CustomEvent} e
      */
     _importFileError(e) {
-      var message = e.message || e.detail.message;
+      const message = e.message || e.detail.message;
       this.readingFile = false;
       this._notifyError('The application was unable to read the file. ' + message);
       console.error(e);
       this._resetFileDrop();
-      this.fire('app-log', {'message': ['import:file-read', message], 'level': 'error'});
-      this.fire('send-analytics', {
-        type: 'exception',
-        description: message,
-        fatal: true
-      });
+      this._sendError(message);
     }
     // Moves the view to previous screen.
     screenBack() {
-      var page = this.selectedPage;
+      const page = this.selectedPage;
       if (page === 0) {
         return;
       }
@@ -334,6 +333,8 @@ the License.
     }
     /**
      * Handler called when the files has been read.
+     *
+     * @param {CustomEvent} e
      */
     _importFileReady(e) {
       this._resetFileDrop();
@@ -386,7 +387,11 @@ the License.
         throw cause;
       });
     }
-    // Sends the `import-data` custom event to the import element to save the data
+    /**
+     * Sends the `import-data` custom event to the import element to save the data
+     * @param {CustomEvent} e
+     * @return {Promise}
+     */
     _importData(e) {
       const data = e.detail;
       this._setImporting(true);
