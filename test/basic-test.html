@@ -1,19 +1,9 @@
 <!doctype html>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
     <script src="../../iron-test-helpers/test-helpers.js"></script>
     <script src="../../iron-test-helpers/mock-interactions.js"></script>
@@ -28,10 +18,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </test-fixture>
 
     <script>
-    /* global fixture, assert, MockInteractions */
+    /* global MockInteractions */
     suite('basic', function() {
-
-      var element;
+      let element;
       setup(function() {
         element = fixture('basic');
       });
@@ -44,10 +33,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         assert.isUndefined(element.hasData);
       });
 
-      test('readingFile inherited value', function() {
-        assert.isFalse(element.readingFile);
-      });
-
       test('withDriveList is not set', function() {
         assert.isUndefined(element.withDriveList);
       });
@@ -57,29 +42,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       test('Drive picker is not opened', function() {
-        var node = element.$$('google-drive-browser');
-        var attrName = node.getAttribute('attr-for-opened');
+        const node = element.shadowRoot.querySelector('google-drive-browser');
+        const attrName = node.getAttribute('attr-for-opened');
         assert.typeOf(attrName, 'string');
         assert.isFalse(node.hasAttribute(attrName));
       });
 
       test('paper-spinner is not in the DOM', function() {
-        var node = element.$$('paper-spinner');
+        const node = element.shadowRoot.querySelector('paper-spinner');
         assert.notOk(node);
       });
 
       test('Opens Google Drive picker', function() {
-        var button = element.$$('[data-action="open-drive-picker"]');
+        const button = element.shadowRoot.querySelector('[data-action="open-drive-picker"]');
         MockInteractions.tap(button);
         assert.equal(element.selectedPage, 1, 'selectedPage is 1');
         assert.isTrue(element.withDriveList, 'withDriveList is true');
-        var node = element.$$('google-drive-browser');
-        var attrName = node.getAttribute('attr-for-opened');
+        const node = element.shadowRoot.querySelector('google-drive-browser');
+        const attrName = node.getAttribute('attr-for-opened');
         assert.isTrue(node.hasAttribute(attrName), 'Picker is opened');
       });
 
       test('Opens data manual entry', function() {
-        var button = element.$$('[data-action="open-text-entry"]');
+        const button = element.shadowRoot.querySelector('[data-action="open-text-entry"]');
         MockInteractions.tap(button);
         assert.equal(element.selectedPage, 2, 'selectedPage is 2');
       });
