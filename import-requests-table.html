@@ -1,6 +1,6 @@
 <!--
 @license
-Copyright 2017 The Advanced REST client authors <arc@mulesoft.com>
+Copyright 2018 The Advanced REST client authors <arc@mulesoft.com>
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
 the License at
@@ -11,7 +11,7 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 -->
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../iron-collapse/iron-collapse.html">
 <link rel="import" href="../arc-icons/arc-icons.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
@@ -21,14 +21,7 @@ the License.
 <link rel="import" href="../paper-item/paper-icon-item.html">
 <link rel="import" href="../paper-item/paper-item-body.html">
 <link rel="import" href="import-table-common-styles.html">
-<link rel="import" href="import-table-behavior.html">
-
-<!--
-An element to display list of request objects to import.
-
-@element import-requests-table
-@demo demo/index.html
--->
+<link rel="import" href="import-table-mixin.html">
 <dom-module id="import-requests-table">
   <template strip-whitespace>
     <style include="import-table-common-styles">
@@ -64,7 +57,7 @@ An element to display list of request objects to import.
       <template is="dom-repeat" items="[[nonProjects]]" id="itemsRepeater">
         <div class="list-item" data-source="itemsRepeater">
           <paper-icon-item>
-            <paper-checkbox checked="[[item.selected]]" item-icon  aria-label$="Select/Deselect [[item.url]]"></paper-checkbox>
+            <paper-checkbox checked="[[item.selected]]" slot="item-icon" aria-label$="Select/Deselect [[item.url]]"></paper-checkbox>
             <span class="method-label">
               <http-method-label method="[[item.method]]"></http-method-label>
             </span>
@@ -83,7 +76,7 @@ An element to display list of request objects to import.
           <template is="dom-repeat" items="[[item.requests]]" data-project$="[[item.projectId]]" as="request">
             <div class="list-item" data-source$="[[item.projectId]]">
               <paper-icon-item>
-                <paper-checkbox checked="[[request.selected]]" item-icon  aria-label$="Select/Deselect [[request.url]]"></paper-checkbox>
+                <paper-checkbox checked="[[request.selected]]" slot="item-icon" aria-label$="Select/Deselect [[request.url]]"></paper-checkbox>
                 <span class="method-label">
                   <http-method-label method="[[request.method]]"></http-method-label>
                 </span>
@@ -102,119 +95,129 @@ An element to display list of request objects to import.
     <array-selector id="selector" items="{{data}}" selected="{{selectedItems}}" multi toggle></array-selector>
   </template>
   <script>
-    Polymer({
-      is: 'import-requests-table',
-
-      behaviors: [
-        ArcBehaviors.ImportTableBehavior
-      ],
-
-      properties: {
+  /* global ArcComponents */
+  /**
+   * An element to display list of request objects to import.
+   *
+   * @customElement
+   * @polymer
+   * @demo demo/index.html
+   * @memberof UiElements
+   * ArcComponents.ImportTableMixin
+   */
+  class ImportRequestsTable extends ArcComponents.ImportTableMixin(Polymer.Element) {
+    static get is() {return 'import-requests-table';}
+    static get properties() {
+      return {
         // List of projects included in the import
         projects: Array,
         nonProjects: Array,
         projectsData: Array
-      },
+      };
+    }
 
-      observers: [
+    static get observers() {
+      return [
         '_computeRequestsView(data)'
-      ],
+      ];
+    }
 
-      _computeRequestsView: function(data) {
-        if (!data) {
-          return;
-        }
-        let nonProjects = [];
-        let projectsData = {};
-        data.forEach((item) => {
-          if (item.legacyProject) {
-            if (item.legacyProject in projectsData) {
-              projectsData[item.legacyProject].push(item);
-            } else {
-              projectsData[item.legacyProject] = [item];
-            }
+    _computeRequestsView(data) {
+      if (!data) {
+        return;
+      }
+      let nonProjects = [];
+      let projectsData = {};
+      data.forEach((item) => {
+        if (item.legacyProject) {
+          if (item.legacyProject in projectsData) {
+            projectsData[item.legacyProject].push(item);
           } else {
-            nonProjects.push(item);
+            projectsData[item.legacyProject] = [item];
           }
-        });
-        this.set('nonProjects', nonProjects);
-        projectsData = Object.keys(projectsData).map((id) => {
-          return {
-            projectId: id,
-            requests: projectsData[id]
-          };
-        });
-        this.set('projectsData', projectsData);
-      },
-      // Computes lable for a project
-      _computeProjectLabel: function(id, list) {
-        if (!id || !list || !list.length) {
-          return '';
+        } else {
+          nonProjects.push(item);
         }
-        var project = list.find(item => item._id === id);
-        if (!project) {
-          return '';
-        }
-        return project.name;
-      },
+      });
+      this.set('nonProjects', nonProjects);
+      projectsData = Object.keys(projectsData).map((id) => {
+        return {
+          projectId: id,
+          requests: projectsData[id]
+        };
+      });
+      this.set('projectsData', projectsData);
+    }
+    // Computes lable for a project
+    _computeProjectLabel(id, list) {
+      if (!id || !list || !list.length) {
+        return '';
+      }
+      const project = list.find(item => item._id === id);
+      if (!project) {
+        return '';
+      }
+      return project.name;
+    }
 
-      _onSelectItem: function(e) {
-        let ev = Polymer.dom(e);
-        var target = ev.path[0];
-        if (target.localName === 'input' ||
-            target.localName === 'button' ||
-            target.localName === 'select' ||
-            target.localName === 'paper-button') {
-          return;
-        }
-        let source = this._findSource(ev.path);
-        if (!source) {
-          return;
-        }
-        let selector;
-        let itemKey;
-        if (source !== 'itemsRepeater') {
-          selector = '[data-project="' + source + '"]';
-          itemKey = 'request';
-        } else {
-          selector = '#' + source;
-          itemKey = 'item';
-        }
-        let repeater = this.$$(selector);
-        let model = repeater.modelForElement(e.target);
-        let item = model.get(itemKey);
-        let state;
-        if (this.$.selector.isSelected(item)) {
-          this.$.selector.deselect(item);
-          state = false;
-        } else {
-          this.$.selector.select(item);
-          state = true;
-        }
-        model.set(itemKey + '.selected', state);
-      },
-      /**
-       * Finds an element that has `data-source` attribute in the event path.
-       *
-       * @param {Array} path Event path.
-       * @return {String} Value od the `data-source` attribute;
-       */
-      _findSource: function(path) {
-        path = path || [];
-        let source;
-        while (true) {
-          let current = path.shift();
-          if (!current) {
-            break;
-          }
-          if (!current.dataset || !current.dataset.source) {
-            continue;
-          }
-          source = current.dataset.source;
+    _onSelectItem(e) {
+      const path = e.composedPath();
+      const target = path[0];
+      if (target.localName === 'input' ||
+          target.localName === 'button' ||
+          target.localName === 'select' ||
+          target.localName === 'paper-button') {
+        return;
+      }
+      const source = this._findSource(path);
+      if (!source) {
+        return;
+      }
+      let selector;
+      let itemKey;
+      if (source !== 'itemsRepeater') {
+        selector = '[data-project="' + source + '"]';
+        itemKey = 'request';
+      } else {
+        selector = '#' + source;
+        itemKey = 'item';
+      }
+      const repeater = this.shadowRoot.querySelector(selector);
+      const model = repeater.modelForElement(e.target);
+      const item = model.get(itemKey);
+      let state;
+      if (this.$.selector.isSelected(item)) {
+        this.$.selector.deselect(item);
+        state = false;
+      } else {
+        this.$.selector.select(item);
+        state = true;
+      }
+      model.set(itemKey + '.selected', state);
+    }
+    /**
+     * Finds an element that has `data-source` attribute in the event path.
+     *
+     * @param {Array} path Event path.
+     * @return {String} Value od the `data-source` attribute;
+     */
+    _findSource(path) {
+      path = path || [];
+      let source;
+      while (true) {
+        let current = path.shift();
+        if (!current) {
           break;
         }
-        return source;
+        if (!current.dataset || !current.dataset.source) {
+          continue;
+        }
+        source = current.dataset.source;
+        break;
       }
-    });
+      return source;
+    }
+  }
+  window.customElements.define(ImportRequestsTable.is, ImportRequestsTable);
   </script>
 </dom-module>

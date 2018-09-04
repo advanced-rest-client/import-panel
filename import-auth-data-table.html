@@ -1,6 +1,6 @@
 <!--
 @license
-Copyright 2017 The Advanced REST client authors <arc@mulesoft.com>
+Copyright 2018 The Advanced REST client authors <arc@mulesoft.com>
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
 the License at
@@ -11,7 +11,7 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 -->
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../iron-collapse/iron-collapse.html">
 <link rel="import" href="../arc-icons/arc-icons.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
@@ -20,14 +20,7 @@ the License.
 <link rel="import" href="../paper-item/paper-icon-item.html">
 <link rel="import" href="../paper-item/paper-item-body.html">
 <link rel="import" href="import-table-common-styles.html">
-<link rel="import" href="import-table-behavior.html">
-
-<!--
-An element to display list of authorization data to import.
-
-@element import-auth-data-table
-@demo demo/index.html
--->
+<link rel="import" href="import-table-mixin.html">
 <dom-module id="import-auth-data-table">
   <template strip-whitespace>
     <style include="import-table-common-styles">
@@ -44,10 +37,7 @@ An element to display list of authorization data to import.
     </div>
     <iron-collapse opened="[[opened]]">
       <section class="table-options">
-        <span>
-          <paper-checkbox class="select-all" checked="{{allSelected}}"></paper-checkbox>
-          <paper-tooltip animation-delay="200" position="right" offset="0">Select / deselect all</paper-tooltip>
-        </span>
+        <paper-checkbox class="select-all" checked="{{allSelected}}" title="Select / deselect all"></paper-checkbox>
         <span class="selected-counter">[[selectedItems.length]] item(s) selected</span>
       </section>
       <p class="no-data">For security reasons this data can't be viewed</p>
@@ -55,12 +45,19 @@ An element to display list of authorization data to import.
     <array-selector id="selector" items="{{data}}" selected="{{selectedItems}}" multi toggle></array-selector>
   </template>
   <script>
-    Polymer({
-      is: 'import-auth-data-table',
-
-      behaviors: [
-        ArcBehaviors.ImportTableBehavior
-      ]
-    });
+  /* global ArcComponents */
+  /**
+   * An element to display list of authorization data to import.
+   *
+   * @customElement
+   * @polymer
+   * @demo demo/index.html
+   * @memberof UiElements
+   * ArcComponents.ImportTableMixin
+   */
+  class ImportAuthDataTable extends ArcComponents.ImportTableMixin(Polymer.Element) {
+    static get is() {return 'import-auth-data-table';}
+  }
+  window.customElements.define(ImportAuthDataTable.is, ImportAuthDataTable);
   </script>
 </dom-module>

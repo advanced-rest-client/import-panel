@@ -1,6 +1,6 @@
 <!--
 @license
-Copyright 2017 The Advanced REST client authors <arc@mulesoft.com>
+Copyright 2018 The Advanced REST client authors <arc@mulesoft.com>
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
 the License at
@@ -11,7 +11,7 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 -->
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../iron-collapse/iron-collapse.html">
 <link rel="import" href="../arc-icons/arc-icons.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
@@ -20,14 +20,8 @@ the License.
 <link rel="import" href="../paper-item/paper-icon-item.html">
 <link rel="import" href="../paper-item/paper-item-body.html">
 <link rel="import" href="import-table-common-styles.html">
-<link rel="import" href="import-table-behavior.html">
+<link rel="import" href="import-table-mixin.html">
 
-<!--
-An element to display list of headers sets to import.
-
-@element import-headers-sets-table
-@demo demo/index.html
--->
 <dom-module id="import-headers-sets-table">
   <template strip-whitespace>
     <style include="import-table-common-styles"></style>
@@ -38,15 +32,14 @@ An element to display list of headers sets to import.
     <iron-collapse opened="[[opened]]">
       <section class$="table-options [[_computeTableClass(hasSelection)]]">
         <span>
-          <paper-checkbox class="select-all" checked="{{allSelected}}"></paper-checkbox>
-          <paper-tooltip animation-delay="200" position="right" offset="0">Select / deselect all</paper-tooltip>
+          <paper-checkbox class="select-all" checked="{{allSelected}}" title="Select / deselect all"></paper-checkbox>
         </span>
         <span class="selected-counter hiddable">[[selectedItems.length]] item(s) selected</span>
       </section>
       <template is="dom-repeat" id="list" items="[[data]]">
         <div class="list-item">
           <paper-icon-item>
-            <paper-checkbox checked="[[item.selected]]" item-icon  aria-label$="Select/Deselect [[item.url]]"></paper-checkbox>
+            <paper-checkbox checked="[[item.selected]]" slot="item-icon"  aria-label$="Select/Deselect [[item.url]]"></paper-checkbox>
             <paper-item-body>
               <div>[[item.name]]</div>
             </paper-item-body>
@@ -57,12 +50,19 @@ An element to display list of headers sets to import.
     <array-selector id="selector" items="{{data}}" selected="{{selectedItems}}" multi toggle></array-selector>
   </template>
   <script>
-    Polymer({
-      is: 'import-headers-sets-table',
-
-      behaviors: [
-        ArcBehaviors.ImportTableBehavior
-      ]
-    });
+  /* global ArcComponents */
+  /**
+   * An element to display list of headers sets to import.
+   *
+   * @customElement
+   * @polymer
+   * @demo demo/index.html
+   * @memberof UiElements
+   * ArcComponents.ImportTableMixin
+   */
+  class ImportHeadersSetsTable extends ArcComponents.ImportTableMixin(Polymer.Element) {
+    static get is() {return 'import-headers-sets-table';}
+  }
+  window.customElements.define(ImportHeadersSetsTable.is, ImportHeadersSetsTable);
   </script>
 </dom-module>
