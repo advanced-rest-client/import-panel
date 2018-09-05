@@ -34,7 +34,6 @@
     "paper-icon-button": "PolymerElements/paper-icon-button#^2.0.0",
     "paper-styles": "PolymerElements/paper-styles#^2.0.0",
     "paper-input": "PolymerElements/paper-input#^2.0.0",
-    "form-action-bar": "advanced-rest-client/form-action-bar#2.0.0-preview",
     "date-time": "advanced-rest-client/date-time#^2.0.0",
     "http-method-label": "advanced-rest-client/http-method-label#^2.0.0",
     "paper-item": "PolymerElements/paper-item#^2.0.0",

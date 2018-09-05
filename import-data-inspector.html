@@ -12,7 +12,6 @@ License for the specific language governing permissions and limitations under
 the License.
 -->
 <link rel="import" href="../polymer/polymer-element.html">
-<link rel="import" href="../form-action-bar/form-action-bar.html">
 <link rel="import" href="../date-time/date-time.html">
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="import-requests-table.html">
@@ -28,7 +27,6 @@ the License.
     <style>
     :host {
       display: block;
-      height: inherit;
       padding-bottom: 64px;
       @apply --arc-font-body1;
       @apply --import-data-inspector;
@@ -45,6 +43,12 @@ the License.
     .meta {
       color: var(--import-data-inspector-meta-color, rgba(0, 0, 0, 0.74));
       margin-bottom: 24px;
+    }
+
+    .form-actions {
+      @apply --layout-flex;
+      @apply --layout-end-justified;
+      @apply --layout-horizontal;
     }
     </style>
     <template is="dom-if" if="[[data.createdAt]]">
@@ -83,10 +87,10 @@ the License.
       <import-websocket-url-history-table table-title="Web socket URL history for autocomplete" data="[[socketUrls]]"></import-websocket-url-history-table>
     </template>
 
-    <form-action-bar>
-      <paper-button on-tap="_cancel" data-action="cancel-import">Cancel</paper-button>
-      <paper-button class="primary-action" on-tap="_import" data-action="import-data">Import data</paper-button>
-    </form-action-bar>
+    <section class="form-actions">
+      <paper-button on-click="_cancel" data-action="cancel-import">Cancel</paper-button>
+      <paper-button class="primary-action" on-click="_import" data-action="import-data">Import data</paper-button>
+    </section>
   </template>
   <script>
   /**

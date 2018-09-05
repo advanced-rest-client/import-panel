@@ -101,6 +101,7 @@
     scope.handleSignInError = function(event) {
       console.log(event.detail);
     };
+
     scope._userAuthorized = function(e) {
       const token = e.detail.access_token;
       document.body.dispatchEvent(new CustomEvent('google-signin-success', {

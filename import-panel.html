@@ -22,7 +22,6 @@ the License.
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../paper-styles/shadow.html">
 <link rel="import" href="../paper-input/paper-textarea.html">
-<link rel="import" href="../form-action-bar/form-action-bar.html">
 <link rel="import" href="../paper-toast/paper-toast.html">
 <link rel="import" href="import-data-inspector.html">
 
@@ -101,6 +100,12 @@ the License.
       color: var(--warning-contrast-color, #fff);
       @apply --error-toast;
     }
+
+    .form-actions {
+      @apply --layout-flex;
+      @apply --layout-end-justified;
+      @apply --layout-horizontal;
+    }
     </style>
     <template is="dom-if" if="[[_computeLoader(readingFile, importing)]]">
       <paper-spinner alt="Preparing data"></paper-spinner>
@@ -129,8 +134,7 @@ the License.
         </div>
         <div class="card">
           <google-drive-browser
-            attr-for-opened="opened"
-            opened$="[[withDriveList]]"
+            access-token="[[accessToken]]"
             api-key="[[apiKey]]"
             mime-type="application/restclient+data"
             on-drive-file-picker-data="_driveContentReady"></google-drive-browser>
@@ -142,10 +146,10 @@ the License.
           <h2>Paste data</h2>
         </div>
         <paper-textarea label="Import data" id="manualInput"></paper-textarea>
-        <form-action-bar>
+        <section class="form-actions">
           <paper-button on-click="screenBack" data-action="cancel-text">Cancel</paper-button>
           <paper-button class="primary-action" on-click="_importText" data-action="import-text">Next</paper-button>
-        </form-action-bar>
+        </section>
       </section>
       <section>
         <div class="title-action">
@@ -240,14 +244,13 @@ the License.
           readOnly: true
         },
         // True if user selected Drive import
-        withDriveList: {
-          type: Boolean,
-          reflectToAttribute: true
-        },
+        withDriveList: Boolean,
         /**
          * Drive API api key value to be passed to the Drive picker.
          */
-        apiKey: String
+        apiKey: String,
+        // OAuth 2 access token for Drive Panel
+        accessToken: String
       };
     }
     _computeLoader(readingFile, importing) {
