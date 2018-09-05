@@ -41,13 +41,6 @@
         assert.isFalse(element.importing);
       });
 
-      test('Drive picker is not opened', function() {
-        const node = element.shadowRoot.querySelector('google-drive-browser');
-        const attrName = node.getAttribute('attr-for-opened');
-        assert.typeOf(attrName, 'string');
-        assert.isFalse(node.hasAttribute(attrName));
-      });
-
       test('paper-spinner is not in the DOM', function() {
         const node = element.shadowRoot.querySelector('paper-spinner');
         assert.notOk(node);
@@ -57,10 +50,6 @@
         const button = element.shadowRoot.querySelector('[data-action="open-drive-picker"]');
         MockInteractions.tap(button);
         assert.equal(element.selectedPage, 1, 'selectedPage is 1');
-        assert.isTrue(element.withDriveList, 'withDriveList is true');
-        const node = element.shadowRoot.querySelector('google-drive-browser');
-        const attrName = node.getAttribute('attr-for-opened');
-        assert.isTrue(node.hasAttribute(attrName), 'Picker is opened');
       });
 
       test('Opens data manual entry', function() {
