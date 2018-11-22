@@ -31,6 +31,7 @@ the License.
     :host {
       display: block;
       height: inherit;
+      @apply --arc-font-body1;
       @apply --import-panel;
       --google-drive-browser-title: {
         font-size: 20px;
@@ -46,7 +47,7 @@ the License.
     }
 
     paper-button {
-      color: var(--primary-color);
+      color: var(--import-panel-action-button, var(--primary-color));
     }
 
     .primary-action {
