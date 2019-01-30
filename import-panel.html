@@ -56,6 +56,7 @@ the License.
 
     .import-actions paper-button {
       margin-right: 24px;
+      padding-top: 4px;
     }
 
     paper-button iron-icon {
@@ -68,27 +69,23 @@ the License.
       @apply --layout-center;
     }
 
-    .card {
-      @apply --shadow-elevation-2dp;
-      padding: 24px;
-      @apply --import-panel-card;
-    }
-
     iron-pages,
     iron-pages > * {
-      height: 100%;
+      height: inherit;
+      min-height: inherit;
+      @apply --layout-vertical;
+    }
+
+    iron-pages > * {
+      @apply --layout-flex;
     }
 
     .drive-browser {
       @apply --layout-vertical;
     }
 
-    .drive-browser .card {
-      @apply --layout-flex;
-    }
-
     google-drive-browser {
-      height: 100%;
+      @apply --layout-flex;
     }
 
     .text-import {
@@ -115,42 +112,44 @@ the License.
     <iron-pages selected="[[selectedPage]]">
       <section class="import-actions">
         <h2>Import data</h2>
-        <paper-button on-click="_selectFile" raised data-action="opend-file-picker">
-          Open from file
-          <iron-icon icon="arc:insert-drive-file"></iron-icon>
-        </paper-button>
-        <paper-button on-click="_importDrive" raised data-action="open-drive-picker">
-          Open from Drive
-          <iron-icon icon="arc:drive"></iron-icon>
-        </paper-button>
-        <paper-button on-click="_pasteData" raised data-action="open-text-entry">
-          Paste text data
-          <iron-icon icon="arc:short-text"></iron-icon>
-        </paper-button>
+        <div class="content">
+          <paper-button on-click="_selectFile" raised data-action="opend-file-picker">
+            Open from file
+            <iron-icon icon="arc:insert-drive-file"></iron-icon>
+          </paper-button>
+          <paper-button on-click="_importDrive" raised data-action="open-drive-picker">
+            Open from Drive
+            <iron-icon icon="arc:drive"></iron-icon>
+          </paper-button>
+          <paper-button on-click="_pasteData" raised data-action="open-text-entry">
+            Paste text data
+            <iron-icon icon="arc:short-text"></iron-icon>
+          </paper-button>
+        </div>
       </section>
       <section class="drive-browser">
         <div class="title-action">
           <paper-icon-button icon="arc:arrow-back" on-click="screenBack"></paper-icon-button>
           <h2>Import file from Google Drive</h2>
         </div>
-        <div class="card">
-          <google-drive-browser
-            access-token="[[accessToken]]"
-            api-key="[[apiKey]]"
-            mime-type="application/restclient+data"
-            on-drive-file-picker-data="_driveContentReady"></google-drive-browser>
-        </div>
+        <google-drive-browser
+          access-token="[[accessToken]]"
+          api-key="[[apiKey]]"
+          mime-type="[[mimeType]]"
+          on-drive-file-picker-data="_driveContentReady"></google-drive-browser>
       </section>
       <section class="text-import">
         <div class="title-action">
           <paper-icon-button icon="arc:arrow-back" on-click="screenBack"></paper-icon-button>
           <h2>Paste data</h2>
         </div>
-        <paper-textarea label="Import data" id="manualInput"></paper-textarea>
-        <section class="form-actions">
-          <paper-button on-click="screenBack" data-action="cancel-text">Cancel</paper-button>
-          <paper-button class="primary-action" on-click="_importText" data-action="import-text">Next</paper-button>
-        </section>
+        <div class="content">
+          <paper-textarea label="Import data" id="manualInput"></paper-textarea>
+          <section class="form-actions">
+            <paper-button on-click="screenBack" data-action="cancel-text">Cancel</paper-button>
+            <paper-button class="primary-action" on-click="_importText" data-action="import-text">Next</paper-button>
+          </section>
+        </div>
       </section>
       <section>
         <div class="title-action">
@@ -251,7 +250,11 @@ the License.
          */
         apiKey: String,
         // OAuth 2 access token for Drive Panel
-        accessToken: String
+        accessToken: String,
+        /**
+         * A mime type to be passed to Google Drive browser.
+         */
+        mimeType: String
       };
     }
     _computeLoader(readingFile, importing) {
