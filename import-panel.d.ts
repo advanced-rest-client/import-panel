@@ -8,6 +8,10 @@
  *   import-panel.html
  */
 
+
+// tslint:disable:variable-name Describing an API that's defined elsewhere.
+// tslint:disable:no-any describes the API as best we are able today
+
 /// <reference path="../polymer/types/polymer-element.d.ts" />
 /// <reference path="../google-drive-browser/google-drive-browser.d.ts" />
 /// <reference path="../file-reader/file-reader.d.ts" />

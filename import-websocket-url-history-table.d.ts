@@ -8,6 +8,9 @@
  *   import-websocket-url-history-table.html
  */
 
+
+// tslint:disable:variable-name Describing an API that's defined elsewhere.
+
 /// <reference path="import-base-table.d.ts" />
 
 declare namespace UiElements {

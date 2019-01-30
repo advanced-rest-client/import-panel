@@ -8,6 +8,9 @@
  *   import-table-common-styles.html
  */
 
+
+// tslint:disable:variable-name Describing an API that's defined elsewhere.
+
 /// <reference path="../polymer/types/polymer-element.d.ts" />
 /// <reference path="../paper-styles/shadow.d.ts" />
 /// <reference path="../iron-flex-layout/iron-flex-layout.d.ts" />
