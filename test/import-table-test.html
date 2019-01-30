@@ -1,23 +1,12 @@
 <!doctype html>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
-    <script src="../../iron-test-helpers/test-helpers.js"></script>
     <script src="../../iron-test-helpers/mock-interactions.js"></script>
-    <script src="../../arc-demo-helpers/data-generator.js"></script>
+    <link rel="import" href="../../arc-data-generator/arc-data-generator.html">
     <script src="../../chance/dist/chance.min.js"></script>
     <link rel="import" href="../import-panel.html">
     <link rel="import" href="../import-data-inspector.html">
@@ -31,39 +20,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </test-fixture>
 
     <script>
-    /* global fixture, assert, MockInteractions, DataGenerator, TestHelpers */
-    var saved = DataGenerator.generateSavedRequestData({
-      requestsSize: 10,
-      projectsSize: 1
-    });
-    var history = DataGenerator.generateHistoryRequestsData({
-      requestsSize: 10
-    });
-    var importData = {
-      kind: 'ARC#Import',
-      createdAt: '2017-09-28T19:43:09.491',
-      version: '9.14.64.305',
-      requests: saved.requests,
-      projects: saved.projects,
-      history: history,
-      variables: DataGenerator.generateVariablesData(),
-      'headers-sets': DataGenerator.generateHeadersSetsData(),
-      cookies: DataGenerator.generateCookiesData(),
-      'url-history': DataGenerator.generateUrlsData({
-        size: 10
-      }),
-      'websocket-url-history': DataGenerator.generateUrlsData({
-        size: 5
-      }),
-      'auth-data': [{_id: 'test', encoded: 'test'}]
-    };
+    /* global DataGenerator */
+    function getImportData() {
+      const saved = DataGenerator.generateSavedRequestData({
+        requestsSize: 10,
+        projectsSize: 1
+      });
+      const historyData = DataGenerator.generateHistoryRequestsData({
+        requestsSize: 10
+      });
+      return {
+        'kind': 'ARC#Import',
+        'createdAt': '2017-09-28T19:43:09.491',
+        'version': '9.14.64.305',
+        'requests': saved.requests,
+        'projects': saved.projects,
+        'history': historyData,
+        'variables': DataGenerator.generateVariablesData(),
+        'headers-sets': DataGenerator.generateHeadersSetsData(),
+        'cookies': DataGenerator.generateCookiesData(),
+        'url-history': DataGenerator.generateUrlsData({
+          size: 10
+        }),
+        'websocket-url-history': DataGenerator.generateUrlsData({
+          size: 5
+        }),
+        'auth-data': [{_id: 'test', encoded: 'test'}]
+      };
+    }
 
     suite('import table test', function() {
-      var element;
-      setup(function() {
+      let element;
+      setup(function(done) {
         element = fixture('basic');
-        element.data = DataGenerator.clone(importData);
-        TestHelpers.forceXIfStamp(element);
+        element.data = getImportData();
+        flush(() => done());
       });
 
       test('Computes headersSets property', function() {
@@ -86,7 +77,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           element.removeEventListener('cancel', f);
           done();
         });
-        var button = element.$$('[data-action="cancel-import"]');
+        const button = element.shadowRoot.querySelector('[data-action="cancel-import"]');
         MockInteractions.tap(button);
       });
 
@@ -97,28 +88,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.equal(e.detail.kind, 'ARC#Import', 'Detail is an import object');
           done();
         });
-        var button = element.$$('[data-action="import-data"]');
+        const button = element.shadowRoot.querySelector('[data-action="import-data"]');
         MockInteractions.tap(button);
       });
     });
 
     suite('_getTableData()', function() {
-      var element;
-      setup(function() {
+      let element;
+      setup(function(done) {
         element = fixture('basic');
-        element.data = DataGenerator.clone(importData);
-        TestHelpers.forceXIfStamp(element);
+        element.data = getImportData();
+        flush(() => done());
       });
 
       test('Computes list of selected requests', function() {
-        var result = element._getTableData('import-websocket-url-history-table');
+        const result = element._getTableData('import-websocket-url-history-table');
         assert.typeOf(result, 'array');
         assert.lengthOf(result, 5);
       });
 
       test('Clears "selected" property', function() {
-        var result = element._getTableData('import-websocket-url-history-table');
-        for (var i = 0; i < result.length; i++) {
+        const result = element._getTableData('import-websocket-url-history-table');
+        for (let i = 0; i < result.length; i++) {
           assert.isUndefined(result[i].selected);
         }
       });
@@ -126,27 +117,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       test('Returns undefined for hidden table', function() {
         // dmo-if hiddes the elemen t when falsy instead of removing the element
         // from the dom.
-        var table = element.$$('import-websocket-url-history-table');
+        const table = element.shadowRoot.querySelector('import-websocket-url-history-table');
         table.style.display = 'none';
-        var result = element._getTableData('import-websocket-url-history-table');
+        const result = element._getTableData('import-websocket-url-history-table');
         assert.isUndefined(result);
       });
 
       test('Returns undefined if selection is empty', function() {
-        var table = element.$$('import-websocket-url-history-table');
+        const table = element.shadowRoot.querySelector('import-websocket-url-history-table');
         table.selectedItems = [];
-        var result = element._getTableData('import-websocket-url-history-table');
+        const result = element._getTableData('import-websocket-url-history-table');
         assert.isUndefined(result);
       });
     });
 
     suite('collectData()', function() {
-      var element;
-      var result;
-      suiteSetup(function() {
+      let element;
+      let result;
+      suiteSetup(function(done) {
         element = fixture('basic');
-        element.data = DataGenerator.clone(importData);
-        TestHelpers.forceXIfStamp(element);
+        element.data = getImportData();
+        flush(() => done());
       });
 
       test('Returns an object', function() {
@@ -165,7 +156,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       test('Will not include removed in table data', function() {
-        var table = element.$$('import-websocket-url-history-table');
+        const table = element.shadowRoot.querySelector('import-websocket-url-history-table');
         table.style.display = 'none';
         result = element.collectData();
         assert.isUndefined(result['websocket-url-history']);
@@ -173,7 +164,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       test('Will contain partial import', function() {
-        var table = element.$$('import-websocket-url-history-table');
+        const table = element.shadowRoot.querySelector('import-websocket-url-history-table');
         table.selectedItems = [table.selectedItems[0]];
         result = element.collectData();
         assert.lengthOf(result['websocket-url-history'], 1);

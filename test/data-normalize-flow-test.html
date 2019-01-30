@@ -20,7 +20,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="test-helper.js"></script>
     <link rel="import" href="../../arc-data-import/arc-data-import.html">
     <link rel="import" href="../import-panel.html">
-    <link rel="import" href="../../fetch-polyfill/fetch-polyfill.html">
   </head>
   <body>
 
@@ -34,23 +33,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script>
     /* global fixture, assert, MockInteractions, DataTestHelper */
     suite('basic', function() {
-      var importData;
+      let importData;
       suiteSetup(function() {
         return DataTestHelper.getFile('import-data-test.json')
-        .then(response => {
+        .then((response) => {
           importData = response;
         });
       });
 
-      var element;
+      let element;
       setup(function() {
         element = fixture('basic')[0];
         element.selectedPage = 2;
-        element.$$('#manualInput').value = importData;
+        element.shadowRoot.querySelector('#manualInput').value = importData;
       });
 
       function normalize() {
-        var button = element.$$('[data-action="import-text"]');
+        const button = element.shadowRoot.querySelector('[data-action="import-text"]');
         MockInteractions.tap(button);
       }
 
