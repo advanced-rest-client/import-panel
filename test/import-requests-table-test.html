@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../iron-test-helpers/mock-interactions.js"></script>
+    <link rel="import" href="../../arc-data-generator/arc-data-generator.html">
+    <link rel="import" href="../import-requests-table.html">
+  </head>
+  <body>
+
+    <test-fixture id="Basic">
+      <template>
+        <import-requests-table></import-requests-table>
+      </template>
+    </test-fixture>
+
+    <script>
+    /* global DataGenerator */
+
+    function getData() {
+      const data = DataGenerator.generateSavedRequestData({
+        requestsSize: 15,
+        projectsSize: 2
+      });
+      data.requests[0].legacyProject = data.projects[0]._id;
+      data.projects[0].requests = [data.requests[0]._id];
+      return data;
+    }
+
+    suite('_computeRequestsView()', () => {
+      let element;
+      setup(function() {
+        element = fixture('Basic');
+      });
+
+      test('Does nothing when no argument', () => {
+        element._computeRequestsView();
+        assert.isUndefined(element.projectsData);
+      });
+
+      test('Computes project data', () => {
+        const saved = getData();
+        element._computeRequestsView(saved.requests);
+        assert.typeOf(element.projectsData, 'array');
+      });
+    });
+    </script>
+
+  </body>
+</html>

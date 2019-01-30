@@ -29,7 +29,7 @@
     "arc-icons": "advanced-rest-client/arc-icons#^2.0.0",
     "iron-collapse": "PolymerElements/iron-collapse#^2.0.0",
     "paper-tooltip": "PolymerElements/paper-tooltip#^2.0.0",
-    "google-drive-browser": "advanced-rest-client/google-drive-browser#2.0.0-preview",
+    "google-drive-browser": "advanced-rest-client/google-drive-browser#^2.0.0",
     "iron-pages": "PolymerElements/iron-pages#^2.0.0",
     "paper-icon-button": "PolymerElements/paper-icon-button#^2.0.0",
     "paper-styles": "PolymerElements/paper-styles#^2.0.0",

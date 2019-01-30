@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../iron-test-helpers/mock-interactions.js"></script>
+    <link rel="import" href="../../arc-data-generator/arc-data-generator.html">
+    <link rel="import" href="../import-history-table.html">
+  </head>
+  <body>
+
+    <test-fixture id="Basic">
+      <template>
+        <import-history-table></import-history-table>
+      </template>
+    </test-fixture>
+
+    <script>
+    /* global DataGenerator */
+    suite('toggleOpened()', function() {
+      let element;
+      setup(function() {
+        element = fixture('Basic');
+      });
+
+      test('Toggles "opened"', function() {
+        element.toggleOpened();
+        assert.isTrue(element.opened);
+      });
+    });
+
+    suite('_computeToggleClass()', () => {
+      let element;
+      setup(function() {
+        element = fixture('Basic');
+      });
+
+      test('Returns "opened" when argument is true', () => {
+        const result = element._computeToggleClass(true);
+        assert.equal(result, 'opened');
+      });
+
+      test('Returns empty string otherwise', () => {
+        const result = element._computeToggleClass(false);
+        assert.equal(result, '');
+      });
+    });
+
+    suite('_updateSelected()', () => {
+      let element;
+      setup(function() {
+        element = fixture('Basic');
+      });
+
+      test('Clears selectedItems', () => {
+        element.selectedItems = [{}];
+        element._updateSelected();
+        assert.isUndefined(element.selectedItems);
+      });
+
+      test('Selects all', () => {
+        element.allSelected = false;
+        element._updateSelected([{}]);
+        assert.isTrue(element.allSelected);
+      });
+
+      test('Calls _selectAll()', () => {
+        element.allSelected = true;
+        element.data = [{name: 'test', _id: 'other'}];
+        flush(() => {
+          const spy = sinon.spy(element, '_selectAll');
+          element._updateSelected([{}]);
+          assert.isTrue(spy.called);
+        });
+      });
+    });
+
+    suite('_selectAll()', () => {
+      let element;
+      setup(function() {
+        element = fixture('Basic');
+        element.data = DataGenerator.generateHistoryRequestsData({
+          requestsSize: 5
+        });
+      });
+
+      test('Sets all data selected', () => {
+        element._selectAll();
+        assert.isTrue(element.data.every((i) => i.selected));
+      });
+    });
+
+    suite('_toggleSelectAll()', () => {
+      let element;
+      setup(function() {
+        element = fixture('Basic');
+        element.data = DataGenerator.generateHistoryRequestsData({
+          requestsSize: 5
+        });
+      });
+
+      test('Does nothing when no selected items', () => {
+        element.selectedItems = undefined;
+        element._toggleSelectAll();
+      });
+
+      test('Does nothing when no data', () => {
+        element.selectedItems = [{}];
+        element.data = undefined;
+        element._toggleSelectAll();
+      });
+
+      test('Selecting all - selection length match', () => {
+        element.data[0].selected = undefined;
+        element.selectedItems = element.data;
+        element._toggleSelectAll(true);
+        assert.isUndefined(element.data[0].selected);
+      });
+
+      test('Selecting all - selects all', () => {
+        element.selectedItems = [];
+        element._toggleSelectAll(true);
+        assert.isTrue(element.data[0].selected);
+      });
+
+      test('Selecting none - none selected', () => {
+        element.selectedItems = [];
+        element._toggleSelectAll(false);
+        assert.isTrue(element.data[0].selected);
+      });
+
+      test('Selecting none - all selected', () => {
+        element.selectedItems = element.data;
+        element._toggleSelectAll(false);
+        assert.isFalse(element.data[0].selected);
+      });
+    });
+
+    suite('_onSelectItem()', () => {
+      let element;
+      setup(function(done) {
+        element = fixture('Basic');
+        element.data = DataGenerator.generateHistoryRequestsData({
+          requestsSize: 1
+        });
+        flush(() => done());
+      });
+
+      test('Deselects the item', () => {
+        const node = element.shadowRoot.querySelector('.list-item paper-icon-item');
+        MockInteractions.tap(node);
+        assert.isFalse(element.data[0].selected);
+      });
+
+      test('Selectes the item', () => {
+        element.data[0].selected = false;
+        const node = element.shadowRoot.querySelector('.list-item paper-icon-item');
+        MockInteractions.tap(node);
+        assert.isTrue(element.data[0].selected);
+      });
+
+      test('Ignores other elements than list items', () => {
+        const node = element.shadowRoot.querySelector('header');
+        MockInteractions.tap(node);
+        assert.isTrue(element.data[0].selected);
+      });
+    });
+    </script>
+
+  </body>
+</html>

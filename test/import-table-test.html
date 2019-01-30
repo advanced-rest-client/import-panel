@@ -20,38 +20,40 @@
     </test-fixture>
 
     <script>
-    /* global MockInteractions, DataGenerator */
-    const saved = DataGenerator.generateSavedRequestData({
-      requestsSize: 10,
-      projectsSize: 1
-    });
-    const historyData = DataGenerator.generateHistoryRequestsData({
-      requestsSize: 10
-    });
-    const importData = {
-      'kind': 'ARC#Import',
-      'createdAt': '2017-09-28T19:43:09.491',
-      'version': '9.14.64.305',
-      'requests': saved.requests,
-      'projects': saved.projects,
-      'history': historyData,
-      'variables': DataGenerator.generateVariablesData(),
-      'headers-sets': DataGenerator.generateHeadersSetsData(),
-      'cookies': DataGenerator.generateCookiesData(),
-      'url-history': DataGenerator.generateUrlsData({
-        size: 10
-      }),
-      'websocket-url-history': DataGenerator.generateUrlsData({
-        size: 5
-      }),
-      'auth-data': [{_id: 'test', encoded: 'test'}]
-    };
+    /* global DataGenerator */
+    function getImportData() {
+      const saved = DataGenerator.generateSavedRequestData({
+        requestsSize: 10,
+        projectsSize: 1
+      });
+      const historyData = DataGenerator.generateHistoryRequestsData({
+        requestsSize: 10
+      });
+      return {
+        'kind': 'ARC#Import',
+        'createdAt': '2017-09-28T19:43:09.491',
+        'version': '9.14.64.305',
+        'requests': saved.requests,
+        'projects': saved.projects,
+        'history': historyData,
+        'variables': DataGenerator.generateVariablesData(),
+        'headers-sets': DataGenerator.generateHeadersSetsData(),
+        'cookies': DataGenerator.generateCookiesData(),
+        'url-history': DataGenerator.generateUrlsData({
+          size: 10
+        }),
+        'websocket-url-history': DataGenerator.generateUrlsData({
+          size: 5
+        }),
+        'auth-data': [{_id: 'test', encoded: 'test'}]
+      };
+    }
 
     suite('import table test', function() {
       let element;
       setup(function(done) {
         element = fixture('basic');
-        element.data = DataGenerator.clone(importData);
+        element.data = getImportData();
         flush(() => done());
       });
 
@@ -95,7 +97,7 @@
       let element;
       setup(function(done) {
         element = fixture('basic');
-        element.data = DataGenerator.clone(importData);
+        element.data = getImportData();
         flush(() => done());
       });
 
@@ -134,7 +136,7 @@
       let result;
       suiteSetup(function(done) {
         element = fixture('basic');
-        element.data = DataGenerator.clone(importData);
+        element.data = getImportData();
         flush(() => done());
       });
 

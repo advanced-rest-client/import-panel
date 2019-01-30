@@ -184,12 +184,6 @@ global.ArcComponents.ImportTableMixin = Polymer.dedupingMixin((base) => {
       if (!model) {
         return;
       }
-      if (target.localName === 'input' ||
-          target.localName === 'button' ||
-          target.localName === 'select' ||
-          target.localName === 'paper-button') {
-        return;
-      }
       const item = model.get('item');
       const state = !item.selected;
       const index = model.get('index');
