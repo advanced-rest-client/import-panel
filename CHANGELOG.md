@@ -68,3 +68,21 @@
 
 
 
+## [2.0.1](https://github.com/advanced-rest-client/import-panel/compare/0.1.3...2.0.1) (2019-01-30)
+
+
+### Docs
+
+* Adding Polymer docs ([dd36034eeb06831e15a8c8f07d0978a15403c824](https://github.com/advanced-rest-client/import-panel/commit/dd36034eeb06831e15a8c8f07d0978a15403c824))
+* Updating polymer docs ([14c7f4b3819682c7bdfac716b01c32ab4018553e](https://github.com/advanced-rest-client/import-panel/commit/14c7f4b3819682c7bdfac716b01c32ab4018553e))
+
+### New
+
+* Adding test coverage ([5d320285b69f81cff2317cf1a39092273b14a7ee](https://github.com/advanced-rest-client/import-panel/commit/5d320285b69f81cff2317cf1a39092273b14a7ee))
+
+### Update
+
+* Updating styles for ARC ([7c5dc53ffc58fa79478e26975a7592295cf98e12](https://github.com/advanced-rest-client/import-panel/commit/7c5dc53ffc58fa79478e26975a7592295cf98e12))
+
+
+
