@@ -5,13 +5,15 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   import-auth-data-table.html
+ *   import-auth-data-table.js
  */
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 
-/// <reference path="import-base-table.d.ts" />
+import {ImportBaseTable} from './import-base-table.js';
+
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 declare namespace UiElements {
 
@@ -19,11 +21,14 @@ declare namespace UiElements {
    * An element to display list of authorization data to import.
    */
   class ImportAuthDataTable extends
-    ArcComponents.ImportTableMixin(
+    ImportTableMixin(
     ImportBaseTable) {
   }
 }
 
-interface HTMLElementTagNameMap {
-  "import-auth-data-table": UiElements.ImportAuthDataTable;
+declare global {
+
+  interface HTMLElementTagNameMap {
+    "import-auth-data-table": UiElements.ImportAuthDataTable;
+  }
 }

@@ -5,13 +5,17 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   import-cookies-table.html
+ *   import-cookies-table.js
  */
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 
-/// <reference path="import-base-table.d.ts" />
+import {ImportBaseTable} from './import-base-table.js';
+
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+export {ImportCookiesTable};
 
 declare namespace UiElements {
 
@@ -19,11 +23,14 @@ declare namespace UiElements {
    * An element to display list of cookies to import.
    */
   class ImportCookiesTable extends
-    ArcComponents.ImportTableMixin(
+    ImportTableMixin(
     ImportBaseTable) {
   }
 }
 
-interface HTMLElementTagNameMap {
-  "import-cookies-table": UiElements.ImportCookiesTable;
+declare global {
+
+  interface HTMLElementTagNameMap {
+    "import-cookies-table": UiElements.ImportCookiesTable;
+  }
 }

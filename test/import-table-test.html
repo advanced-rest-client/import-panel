@@ -3,13 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
-    <script src="../../iron-test-helpers/mock-interactions.js"></script>
-    <link rel="import" href="../../arc-data-generator/arc-data-generator.html">
-    <script src="../../chance/dist/chance.min.js"></script>
-    <link rel="import" href="../import-panel.html">
-    <link rel="import" href="../import-data-inspector.html">
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@polymer/test-fixture/test-fixture.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../node_modules/wct-mocha/wct-mocha.js"></script>
+
+
+    <script type="module" src="../import-panel.js"></script>
+    <script type="module" src="../import-data-inspector.js"></script>
   </head>
   <body>
 
@@ -19,8 +22,11 @@
       </template>
     </test-fixture>
 
-    <script>
-    /* global DataGenerator */
+    <script type="module">
+    import {DataGenerator} from '../../arc-data-generator/arc-data-generator.js';
+    import {tap} from '../../../@polymer/iron-test-helpers/mock-interactions.js';
+    import '../import-panel.js';
+    import '../import-data-inspector.js';
     function getImportData() {
       const saved = DataGenerator.generateSavedRequestData({
         requestsSize: 10,
@@ -78,7 +84,7 @@
           done();
         });
         const button = element.shadowRoot.querySelector('[data-action="cancel-import"]');
-        MockInteractions.tap(button);
+        tap(button);
       });
 
       test('Fires "import" event', function(done) {
@@ -89,7 +95,7 @@
           done();
         });
         const button = element.shadowRoot.querySelector('[data-action="import-data"]');
-        MockInteractions.tap(button);
+        tap(button);
       });
     });
 

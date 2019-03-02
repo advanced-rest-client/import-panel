@@ -1,22 +1,41 @@
 {
-  "name": "@advanced-rest-client/import-panel",
-  "version": "2.0.1",
-  "license": "Apache-2.0",
   "description": "The import data view for ARC",
-  "devDependencies": {
-    "@polymer/gen-typescript-declarations": "^1.6.1"
+  "keywords": [
+    "web-components",
+    "polymer",
+    "import",
+    "datastore"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/advanced-rest-client/import-panel.git"
   },
-  "private": false,
-  "main": "import-panel.html",
+  "name": "@advanced-rest-client/import-panel",
+  "version": "3.0.0-preview.1",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@advanced-rest-client/arc-data-generator": "^3.0.0-preview.1",
+    "@advanced-rest-client/arc-data-import": "^3.0.0-preview.1",
+    "@advanced-rest-client/arc-electron-default-theme": "^3.0.0-preview.1",
+    "@google-web-components/google-signin": "^3.0.1",
+    "@polymer/gen-typescript-declarations": "^1.6.1",
+    "@polymer/iron-component-page": "^4.0.0",
+    "@polymer/iron-demo-helpers": "^3.0.0",
+    "@polymer/iron-test-helpers": "^3.0.0",
+    "@polymer/paper-checkbox": "^3.0.0",
+    "@polymer/test-fixture": "^4.0.2",
+    "@webcomponents/webcomponentsjs": "^2.0.0",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "sinon": "^7.2.3",
+    "wct-mocha": "^1.0.0"
+  },
+  "main": "import-panel.js",
   "scripts": {
     "lint": "polymer lint import-panel.html",
     "test-sauce": "polymer test --plugin sauce --job-name \"import-panel:local-test\"",
     "test": "polymer test --plugin local",
     "update-types": "gen-typescript-declarations --deleteExisting --outDir ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/advanced-rest-client/import-panel.git"
   },
   "bugs": {
     "url": "https://github.com/advanced-rest-client/import-panel/issues",
@@ -25,5 +44,29 @@
   "authors": [
     "Pawel Psztyc",
     "The Advanced REST client authors <arc@mulesoft.com>"
-  ]
+  ],
+  "contributors": [
+    "Pawel Psztyc",
+    "The Advanced REST client authors <arc@mulesoft.com>"
+  ],
+  "dependencies": {
+    "@advanced-rest-client/arc-icons": "^3.0.0-preview.1",
+    "@advanced-rest-client/date-time": "^3.0.0-preview.1",
+    "@advanced-rest-client/file-reader": "^2.0.0",
+    "@advanced-rest-client/google-drive-browser": "^3.0.0-preview.1",
+    "@api-components/http-method-label": "^3.0.0-preview.1",
+    "@polymer/iron-collapse": "^3.0.0",
+    "@polymer/iron-flex-layout": "^3.0.0",
+    "@polymer/iron-icon": "^3.0.0",
+    "@polymer/iron-pages": "^3.0.0",
+    "@polymer/paper-button": "^3.0.0",
+    "@polymer/paper-icon-button": "^3.0.0",
+    "@polymer/paper-input": "^3.0.0",
+    "@polymer/paper-item": "^3.0.0",
+    "@polymer/paper-spinner": "^3.0.0",
+    "@polymer/paper-styles": "^3.0.0",
+    "@polymer/paper-toast": "^3.0.0",
+    "@polymer/paper-tooltip": "^3.0.0",
+    "@polymer/polymer": "^3.0.0"
+  }
 }

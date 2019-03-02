@@ -5,13 +5,11 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   import-table-common-styles.html
+ *   import-table-common-styles.js
  */
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 
-/// <reference path="../polymer/types/polymer-element.d.ts" />
-/// <reference path="../paper-styles/shadow.d.ts" />
-/// <reference path="../iron-flex-layout/iron-flex-layout.d.ts" />
 
+export {};

@@ -3,11 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
-    <script src="../../iron-test-helpers/mock-interactions.js"></script>
-    <link rel="import" href="../../arc-data-generator/arc-data-generator.html">
-    <link rel="import" href="../import-history-table.html">
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@polymer/test-fixture/test-fixture.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../node_modules/wct-mocha/wct-mocha.js"></script>
+
   </head>
   <body>
 
@@ -17,8 +19,11 @@
       </template>
     </test-fixture>
 
-    <script>
-    /* global DataGenerator */
+    <script type="module">
+    import {DataGenerator} from '../../arc-data-generator/arc-data-generator.js';
+    import {tap} from '../../../@polymer/iron-test-helpers/mock-interactions.js';
+    import {spy as sinonSpy} from '../../../sinon/pkg/sinon-esm.js';
+    import '../import-history-table.js';
     suite('toggleOpened()', function() {
       let element;
       setup(function() {
@@ -70,7 +75,7 @@
         element.allSelected = true;
         element.data = [{name: 'test', _id: 'other'}];
         flush(() => {
-          const spy = sinon.spy(element, '_selectAll');
+          const spy = sinonSpy(element, '_selectAll');
           element._updateSelected([{}]);
           assert.isTrue(spy.called);
         });
@@ -150,20 +155,20 @@
 
       test('Deselects the item', () => {
         const node = element.shadowRoot.querySelector('.list-item paper-icon-item');
-        MockInteractions.tap(node);
+        tap(node);
         assert.isFalse(element.data[0].selected);
       });
 
       test('Selectes the item', () => {
         element.data[0].selected = false;
         const node = element.shadowRoot.querySelector('.list-item paper-icon-item');
-        MockInteractions.tap(node);
+        tap(node);
         assert.isTrue(element.data[0].selected);
       });
 
       test('Ignores other elements than list items', () => {
         const node = element.shadowRoot.querySelector('header');
-        MockInteractions.tap(node);
+        tap(node);
         assert.isTrue(element.data[0].selected);
       });
     });

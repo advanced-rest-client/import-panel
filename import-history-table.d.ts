@@ -5,16 +5,17 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   import-history-table.html
+ *   import-history-table.js
  */
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 
-/// <reference path="../polymer/types/polymer-element.d.ts" />
-/// <reference path="../http-method-label/http-method-label.d.ts" />
-/// <reference path="../date-time/date-time.d.ts" />
-/// <reference path="import-base-table.d.ts" />
+import {ImportBaseTable} from './import-base-table.js';
+
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+export {ImportHistoryTable};
 
 declare namespace UiElements {
 
@@ -22,11 +23,14 @@ declare namespace UiElements {
    * An element to display list of history objects to import.
    */
   class ImportHistoryTable extends
-    ArcComponents.ImportTableMixin(
+    ImportTableMixin(
     ImportBaseTable) {
   }
 }
 
-interface HTMLElementTagNameMap {
-  "import-history-table": UiElements.ImportHistoryTable;
+declare global {
+
+  interface HTMLElementTagNameMap {
+    "import-history-table": UiElements.ImportHistoryTable;
+  }
 }

@@ -5,13 +5,17 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   import-variables-table.html
+ *   import-variables-table.js
  */
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 
-/// <reference path="import-base-table.d.ts" />
+import {ImportBaseTable} from './import-base-table.js';
+
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+export {ImportVariablesTable};
 
 declare namespace UiElements {
 
@@ -19,11 +23,14 @@ declare namespace UiElements {
    * An element to display list of variables to import.
    */
   class ImportVariablesTable extends
-    ArcComponents.ImportTableMixin(
+    ImportTableMixin(
     ImportBaseTable) {
   }
 }
 
-interface HTMLElementTagNameMap {
-  "import-variables-table": UiElements.ImportVariablesTable;
+declare global {
+
+  interface HTMLElementTagNameMap {
+    "import-variables-table": UiElements.ImportVariablesTable;
+  }
 }

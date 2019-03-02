@@ -3,11 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
-    <script src="../../iron-test-helpers/test-helpers.js"></script>
-    <script src="../../iron-test-helpers/mock-interactions.js"></script>
-    <link rel="import" href="../import-panel.html">
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@polymer/test-fixture/test-fixture.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../node_modules/wct-mocha/wct-mocha.js"></script>
+
   </head>
   <body>
 
@@ -17,8 +19,9 @@
       </template>
     </test-fixture>
 
-    <script>
-    /* global MockInteractions */
+    <script type="module">
+    import '../import-panel.js';
+    import {tap} from '../../../@polymer/iron-test-helpers/mock-interactions.js';
     suite('basic', function() {
       let element;
       setup(function() {
@@ -48,13 +51,13 @@
 
       test('Opens Google Drive picker', function() {
         const button = element.shadowRoot.querySelector('[data-action="open-drive-picker"]');
-        MockInteractions.tap(button);
+        tap(button);
         assert.equal(element.selectedPage, 1, 'selectedPage is 1');
       });
 
       test('Opens data manual entry', function() {
         const button = element.shadowRoot.querySelector('[data-action="open-text-entry"]');
-        MockInteractions.tap(button);
+        tap(button);
         assert.equal(element.selectedPage, 2, 'selectedPage is 2');
       });
 

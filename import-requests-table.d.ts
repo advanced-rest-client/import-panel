@@ -5,23 +5,20 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   import-requests-table.html
+ *   import-requests-table.js
  */
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
-/// <reference path="../polymer/types/polymer-element.d.ts" />
-/// <reference path="../iron-collapse/iron-collapse.d.ts" />
-/// <reference path="../arc-icons/arc-icons.d.ts" />
-/// <reference path="../paper-icon-button/paper-icon-button.d.ts" />
-/// <reference path="../paper-checkbox/paper-checkbox.d.ts" />
-/// <reference path="../http-method-label/http-method-label.d.ts" />
-/// <reference path="../paper-item/paper-icon-item.d.ts" />
-/// <reference path="../paper-item/paper-item-body.d.ts" />
-/// <reference path="import-table-common-styles.d.ts" />
-/// <reference path="import-table-mixin.d.ts" />
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+import {ImportTableMixin} from './import-table-mixin.js';
+
+export {ImportRequestsTable};
 
 declare namespace UiElements {
 
@@ -29,7 +26,7 @@ declare namespace UiElements {
    * An element to display list of request objects to import.
    */
   class ImportRequestsTable extends
-    ArcComponents.ImportTableMixin(
+    ImportTableMixin(
     Object) {
 
     /**
@@ -56,6 +53,9 @@ declare namespace UiElements {
   }
 }
 
-interface HTMLElementTagNameMap {
-  "import-requests-table": UiElements.ImportRequestsTable;
+declare global {
+
+  interface HTMLElementTagNameMap {
+    "import-requests-table": UiElements.ImportRequestsTable;
+  }
 }

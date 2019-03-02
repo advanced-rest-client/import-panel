@@ -1,4 +1,4 @@
-const DataTestHelper = {};
+export const DataTestHelper = {};
 
 DataTestHelper.getFile = function(file) {
   return fetch(file).then((response) => {

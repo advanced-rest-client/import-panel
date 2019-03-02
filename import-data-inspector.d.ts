@@ -5,24 +5,18 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   import-data-inspector.html
+ *   import-data-inspector.js
  */
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
-/// <reference path="../polymer/types/polymer-element.d.ts" />
-/// <reference path="../date-time/date-time.d.ts" />
-/// <reference path="../paper-button/paper-button.d.ts" />
-/// <reference path="import-requests-table.d.ts" />
-/// <reference path="import-history-table.d.ts" />
-/// <reference path="import-variables-table.d.ts" />
-/// <reference path="import-headers-sets-table.d.ts" />
-/// <reference path="import-cookies-table.d.ts" />
-/// <reference path="import-auth-data-table.d.ts" />
-/// <reference path="import-url-history-table.d.ts" />
-/// <reference path="import-websocket-url-history-table.d.ts" />
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+export {ImportDataInspector};
 
 declare namespace UiElements {
 
@@ -57,7 +51,7 @@ declare namespace UiElements {
    * `--import-table-selection-counter` | Mixin applied to a table selection counter label | `{}`
    * `--import-table-list-item` | Mixin applied to data table's items | `{}`
    */
-  class ImportDataInspector extends Polymer.Element {
+  class ImportDataInspector extends PolymerElement {
 
     /**
      * Imported data.
@@ -119,6 +113,9 @@ declare namespace UiElements {
   }
 }
 
-interface HTMLElementTagNameMap {
-  "import-data-inspector": UiElements.ImportDataInspector;
+declare global {
+
+  interface HTMLElementTagNameMap {
+    "import-data-inspector": UiElements.ImportDataInspector;
+  }
 }

@@ -5,26 +5,18 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   import-panel.html
+ *   import-panel.js
  */
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
-/// <reference path="../polymer/types/polymer-element.d.ts" />
-/// <reference path="../google-drive-browser/google-drive-browser.d.ts" />
-/// <reference path="../file-reader/file-reader.d.ts" />
-/// <reference path="../paper-button/paper-button.d.ts" />
-/// <reference path="../iron-pages/iron-pages.d.ts" />
-/// <reference path="../iron-icon/iron-icon.d.ts" />
-/// <reference path="../arc-icons/arc-icons.d.ts" />
-/// <reference path="../paper-icon-button/paper-icon-button.d.ts" />
-/// <reference path="../iron-flex-layout/iron-flex-layout.d.ts" />
-/// <reference path="../paper-styles/shadow.d.ts" />
-/// <reference path="../paper-input/paper-textarea.d.ts" />
-/// <reference path="../paper-toast/paper-toast.d.ts" />
-/// <reference path="import-data-inspector.d.ts" />
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+export {ImportPanel};
 
 declare namespace UiElements {
 
@@ -66,7 +58,7 @@ declare namespace UiElements {
    * `--import-table-selection-counter` | Mixin applied to a table selection counter label | `{}`
    * `--import-table-list-item` | Mixin applied to data table's items | `{}`
    */
-  class ImportPanel extends Polymer.Element {
+  class ImportPanel extends PolymerElement {
 
     /**
      * Loadded and normalized import data
@@ -112,6 +104,11 @@ declare namespace UiElements {
      * OAuth 2 access token for Drive Panel
      */
     accessToken: string|null|undefined;
+
+    /**
+     * A mime type to be passed to Google Drive browser.
+     */
+    mimeType: string|null|undefined;
     _computeLoader(readingFile: any, importing: any): any;
 
     /**
@@ -193,6 +190,9 @@ declare namespace UiElements {
   }
 }
 
-interface HTMLElementTagNameMap {
-  "import-panel": UiElements.ImportPanel;
+declare global {
+
+  interface HTMLElementTagNameMap {
+    "import-panel": UiElements.ImportPanel;
+  }
 }
