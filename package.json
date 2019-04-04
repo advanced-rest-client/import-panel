@@ -16,18 +16,18 @@
   "devDependencies": {
     "@advanced-rest-client/arc-data-generator": "^3.0.0-preview.1",
     "@advanced-rest-client/arc-data-import": "^3.0.0-preview.1",
-    "@advanced-rest-client/arc-electron-default-theme": "^3.0.0-preview.1",
+    "@advanced-rest-client/arc-electron-default-theme": "^3.0.0-preview.2",
     "@google-web-components/google-signin": "^3.0.1",
     "@polymer/gen-typescript-declarations": "^1.6.1",
     "@polymer/iron-component-page": "^4.0.0",
-    "@polymer/iron-demo-helpers": "^3.0.0",
+    "@polymer/iron-demo-helpers": "^3.1.0",
     "@polymer/iron-test-helpers": "^3.0.0",
     "@polymer/paper-checkbox": "^3.0.0",
     "@polymer/test-fixture": "^4.0.2",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
-    "sinon": "^7.2.3",
+    "sinon": "^7.3.1",
     "wct-mocha": "^1.0.0"
   },
   "main": "import-panel.js",
@@ -50,11 +50,11 @@
     "The Advanced REST client authors <arc@mulesoft.com>"
   ],
   "dependencies": {
-    "@advanced-rest-client/arc-icons": "^3.0.0-preview.1",
+    "@advanced-rest-client/arc-icons": "^3.0.0-preview.2",
     "@advanced-rest-client/date-time": "^3.0.0-preview.1",
-    "@advanced-rest-client/file-reader": "^2.0.0",
-    "@advanced-rest-client/google-drive-browser": "^3.0.0-preview.1",
-    "@api-components/http-method-label": "^3.0.0-preview.1",
+    "@advanced-rest-client/file-reader": "^2.0.1",
+    "@advanced-rest-client/google-drive-browser": "^3.0.0-preview.2",
+    "@api-components/http-method-label": "^3.0.0-preview.2",
     "@polymer/iron-collapse": "^3.0.0",
     "@polymer/iron-flex-layout": "^3.0.0",
     "@polymer/iron-icon": "^3.0.0",
@@ -67,6 +67,6 @@
     "@polymer/paper-styles": "^3.0.0",
     "@polymer/paper-toast": "^3.0.0",
     "@polymer/paper-tooltip": "^3.0.0",
-    "@polymer/polymer": "^3.0.0"
+    "@polymer/polymer": "^3.2.0"
   }
 }
