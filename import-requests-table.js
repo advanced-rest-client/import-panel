@@ -11,15 +11,15 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import '@polymer/iron-collapse/iron-collapse.js';
-import '@advanced-rest-client/arc-icons/arc-icons.js';
-import '@polymer/paper-icon-button/paper-icon-button.js';
-import '@polymer/paper-checkbox/paper-checkbox.js';
-import '@api-components/http-method-label/http-method-label.js';
-import '@polymer/paper-item/paper-icon-item.js';
-import '@polymer/paper-item/paper-item-body.js';
+import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
+import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
+import '../../@polymer/iron-collapse/iron-collapse.js';
+import '../../@advanced-rest-client/arc-icons/arc-icons.js';
+import '../../@polymer/paper-icon-button/paper-icon-button.js';
+import '../../@polymer/paper-checkbox/paper-checkbox.js';
+import '../../@api-components/http-method-label/http-method-label.js';
+import '../../@polymer/paper-item/paper-icon-item.js';
+import '../../@polymer/paper-item/paper-item-body.js';
 import './import-table-common-styles.js';
 import {ImportTableMixin} from './import-table-mixin.js';
 /**

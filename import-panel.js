@@ -11,20 +11,20 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import '@advanced-rest-client/google-drive-browser/google-drive-browser.js';
-import '@advanced-rest-client/file-reader/file-reader.js';
-import '@polymer/paper-button/paper-button.js';
-import '@polymer/iron-pages/iron-pages.js';
-import '@polymer/iron-icon/iron-icon.js';
-import '@advanced-rest-client/arc-icons/arc-icons.js';
-import '@polymer/paper-icon-button/paper-icon-button.js';
-import '@polymer/iron-flex-layout/iron-flex-layout.js';
-import '@polymer/paper-styles/shadow.js';
-import '@polymer/paper-input/paper-textarea.js';
-import '@polymer/paper-toast/paper-toast.js';
+import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
+import '../../@advanced-rest-client/google-drive-browser/google-drive-browser.js';
+import '../../@advanced-rest-client/file-reader/file-reader.js';
+import '../../@polymer/paper-button/paper-button.js';
+import '../../@polymer/iron-pages/iron-pages.js';
+import '../../@polymer/iron-icon/iron-icon.js';
+import '../../@advanced-rest-client/arc-icons/arc-icons.js';
+import '../../@polymer/paper-icon-button/paper-icon-button.js';
+import '../../@polymer/iron-flex-layout/iron-flex-layout.js';
+import '../../@polymer/paper-styles/shadow.js';
+import '../../@polymer/paper-input/paper-textarea.js';
+import '../../@polymer/paper-toast/paper-toast.js';
 import './import-data-inspector.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
 /**
  * The data import view for ARC.
  *

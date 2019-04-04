@@ -11,9 +11,9 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import '@advanced-rest-client/date-time/date-time.js';
-import '@polymer/paper-button/paper-button.js';
+import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
+import '../../@advanced-rest-client/date-time/date-time.js';
+import '../../@polymer/paper-button/paper-button.js';
 import './import-requests-table.js';
 import './import-history-table.js';
 import './import-variables-table.js';
@@ -22,7 +22,7 @@ import './import-cookies-table.js';
 import './import-auth-data-table.js';
 import './import-url-history-table.js';
 import './import-websocket-url-history-table.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
 /**
  * An element to display tables of import data.
  *

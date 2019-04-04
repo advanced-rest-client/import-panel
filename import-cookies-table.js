@@ -12,7 +12,7 @@ License for the specific language governing permissions and limitations under
 the License.
 */
 import {ImportBaseTable} from './import-base-table.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
 /**
  * An element to display list of cookies to import.
  *

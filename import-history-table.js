@@ -11,10 +11,10 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import '@api-components/http-method-label/http-method-label.js';
-import '@advanced-rest-client/date-time/date-time.js';
+import '../../@api-components/http-method-label/http-method-label.js';
+import '../../@advanced-rest-client/date-time/date-time.js';
 import {ImportBaseTable} from './import-base-table.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
 /**
  * An element to display list of history objects to import.
  *
