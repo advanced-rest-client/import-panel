@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <title>import-panel demo</title>
+
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+
+  <script type="module" src="../../../@webcomponents/shadycss/entrypoints/apply-shim.js"></script>
+  <script type="module" src="../../../@polymer/polymer/lib/elements/custom-style.js"></script>
+  <script type="module" src="../../../@polymer/polymer/lib/elements/dom-bind.js"></script>
+  <script type="module" src="../../../@advanced-rest-client/arc-data-import/arc-data-import.js"></script>
+  <script type="module" src="../../../@google-web-components/google-signin/google-signin-aware.js"></script>
+  <script type="module" src="../../../@advanced-rest-client/arc-electron-default-theme/arc-electron-default-theme.js"></script>
+  <script type="module" src="../../../pouchdb/dist/pouchdb.js"></script>
+  <script type="module" src="../import-panel.js"></script>
+
+  <custom-style>
+    <style is="custom-style">
+    html,
+    body {
+      background-color: #EEEEEE;
+    }
+    .centered {
+      max-width: 1200px;
+      margin: 24px auto;
+    }
+
+    section[card] {
+      padding: 20px;
+      background: white;
+    }
+
+    import-panel {
+      height: calc(100vh - 120px);
+    }
+    </style>
+  </custom-style>
+</head>
+
+<body unresolved>
+  <dom-bind id="demo">
+    <template>
+      <div class="centered">
+        <section card="">
+          <import-panel api-key="935342572974-bunq4fuvs521nsbb1ffegtmpq1a224nm.apps.googleusercontent.com" on-google-autorize="_onAuth"></import-panel>
+        </section>
+        <arc-data-import></arc-data-import>
+        <google-signin-aware client-id="935342572974-bunq4fuvs521nsbb1ffegtmpq1a224nm.apps.googleusercontent.com" scopes="{{authScope}}" signed-in="{{signedIn}}" is-authorized="{{isAuthorized}}" need-additional-auth="{{needAdditionalAuth}}" on-google-signin-aware-error="handleSignInError" on-google-signin-aware-success="_userAuthorized" on-google-signin-offline-success="handleOffline" on-google-signin-aware-signed-out="handleSignOut" on-signed-in-changed="handleStateChange" on-initialized-changed="handleStateChange"></google-signin-aware>
+      </div>
+    </template>
+  </dom-bind>
+  <script type="module">
+  /* global gapi */
+  (function(scope) {
+    scope._onAuth = function(e) {
+      scope.authScope = e.detail.scope;
+      if (scope.needAdditionalAuth) {
+        document.querySelector('google-signin-aware').signIn();
+      } else {
+        const user = gapi.auth2.getAuthInstance().currentUser.get();
+        const session = user.getAuthResponse();
+        document.body.dispatchEvent(new CustomEvent('google-signin-success', {
+          bubbles: true,
+          detail: {
+            scope: session.scope,
+            token: session.access_token
+          }
+        }));
+      }
+    };
+    scope.handleStateChange = function(e) {
+      const signedIn = e.target.signedIn;
+      const initialized = e.target.initialized;
+      if (initialized && !signedIn) {
+        console.log('Not signed in');
+      } else {
+        console.log('Signed in');
+      }
+    };
+    scope.handleSignOut = function() {
+      document.body.dispatchEvent(new CustomEvent('google-signout', {
+        bubbles: true,
+        detail: {
+          scope: scope.authScope
+        }
+      }));
+    };
+    scope.handleSignInError = function(event) {
+      console.log(event.detail);
+    };
+
+    scope._userAuthorized = function(e) {
+      const token = e.detail.access_token;
+      document.body.dispatchEvent(new CustomEvent('google-signin-success', {
+        bubbles: true,
+        detail: {
+          scope: scope.authScope,
+          token: token
+        }
+      }));
+    };
+  })(document.getElementById('demo'));
+  </script>
+</body>
+</html>
