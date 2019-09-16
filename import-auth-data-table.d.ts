@@ -11,24 +11,4 @@
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 
-import {ImportBaseTable} from './import-base-table.js';
-
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
-declare namespace UiElements {
-
-  /**
-   * An element to display list of authorization data to import.
-   */
-  class ImportAuthDataTable extends
-    ImportTableMixin(
-    ImportBaseTable) {
-  }
-}
-
-declare global {
-
-  interface HTMLElementTagNameMap {
-    "import-auth-data-table": UiElements.ImportAuthDataTable;
-  }
-}
+import {ImportAuthDataTable} from './src/ImportAuthDataTable.js';

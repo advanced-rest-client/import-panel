@@ -11,21 +11,5 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {ImportBaseTable} from './import-base-table.js';
-import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
-/**
- * An element to display list of URLs hsitory to import.
- *
- * @customElement
- * @polymer
- * @demo demo/index.html
- * @memberof UiElements
- * @appliesMixin ImportTableMixin
- * @extends {ImportBaseTable}
- */
-class ImportUrlHistoryTable extends ImportBaseTable {
-  static get itemBodyTemplate() {
-    return html`<div>[[item._id]]</div>`;
-  }
-}
+import { ImportUrlHistoryTable } from './src/ImportUrlHistoryTable.js';
 window.customElements.define('import-url-history-table', ImportUrlHistoryTable);

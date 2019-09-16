@@ -11,26 +11,4 @@
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 
-import {ImportBaseTable} from './import-base-table.js';
-
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
-export {ImportCookiesTable};
-
-declare namespace UiElements {
-
-  /**
-   * An element to display list of cookies to import.
-   */
-  class ImportCookiesTable extends
-    ImportTableMixin(
-    ImportBaseTable) {
-  }
-}
-
-declare global {
-
-  interface HTMLElementTagNameMap {
-    "import-cookies-table": UiElements.ImportCookiesTable;
-  }
-}
+import {ImportCookiesTable} from './src/ImportCookiesTable.js';

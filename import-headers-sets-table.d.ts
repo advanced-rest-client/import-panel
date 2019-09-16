@@ -11,26 +11,4 @@
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 
-import {ImportBaseTable} from './import-base-table.js';
-
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
-export {ImportHeadersSetsTable};
-
-declare namespace UiElements {
-
-  /**
-   * An element to display list of headers sets to import.
-   */
-  class ImportHeadersSetsTable extends
-    ImportTableMixin(
-    ImportBaseTable) {
-  }
-}
-
-declare global {
-
-  interface HTMLElementTagNameMap {
-    "import-headers-sets-table": UiElements.ImportHeadersSetsTable;
-  }
-}
+import {ImportHeadersSetsTable} from './src/ImportHeadersSetsTable.js';

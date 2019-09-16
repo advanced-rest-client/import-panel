@@ -11,26 +11,4 @@
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 
-import {ImportBaseTable} from './import-base-table.js';
-
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
-export {ImportVariablesTable};
-
-declare namespace UiElements {
-
-  /**
-   * An element to display list of variables to import.
-   */
-  class ImportVariablesTable extends
-    ImportTableMixin(
-    ImportBaseTable) {
-  }
-}
-
-declare global {
-
-  interface HTMLElementTagNameMap {
-    "import-variables-table": UiElements.ImportVariablesTable;
-  }
-}
+import {ImportVariablesTable} from './src/ImportVariablesTable.js';

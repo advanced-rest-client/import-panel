@@ -11,21 +11,5 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {ImportBaseTable} from './import-base-table.js';
-import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
-/**
- * An element to display list of cookies to import.
- *
- * @customElement
- * @polymer
- * @demo demo/index.html
- * @memberof UiElements
- * @appliesMixin ImportTableMixin
- * @extends {ImportBaseTable}
- */
-export class ImportCookiesTable extends ImportBaseTable {
-  static get itemBodyTemplate() {
-    return html`<div>[[item.name]] from [[item.domain]]</div>`;
-  }
-}
+import { ImportCookiesTable } from './src/ImportCookiesTable.js';
 window.customElements.define('import-cookies-table', ImportCookiesTable);

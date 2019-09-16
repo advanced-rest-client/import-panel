@@ -10,52 +10,5 @@
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
-// tslint:disable:no-any describes the API as best we are able today
 
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
-import {ImportTableMixin} from './import-table-mixin.js';
-
-export {ImportRequestsTable};
-
-declare namespace UiElements {
-
-  /**
-   * An element to display list of request objects to import.
-   */
-  class ImportRequestsTable extends
-    ImportTableMixin(
-    Object) {
-
-    /**
-     * List of projects included in the import
-     */
-    projects: any[]|null|undefined;
-    nonProjects: any[]|null|undefined;
-    projectsData: any[]|null|undefined;
-    _onSelectItem(e: any): void;
-    _computeRequestsView(data: any): void;
-
-    /**
-     * Computes lable for a project
-     */
-    _computeProjectLabel(id: any, list: any): any;
-
-    /**
-     * Finds an element that has `data-source` attribute in the event path.
-     *
-     * @param path Event path.
-     * @returns Value od the `data-source` attribute;
-     */
-    _findSource(path: any[]|null): String|null;
-  }
-}
-
-declare global {
-
-  interface HTMLElementTagNameMap {
-    "import-requests-table": UiElements.ImportRequestsTable;
-  }
-}
+import {ImportRequestsTable} from './src/ImportRequestsTable.js';
