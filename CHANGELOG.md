@@ -86,3 +86,7 @@
 
 
 
+# [3.0.0](https://github.com/advanced-rest-client/import-panel/compare/0.1.3...3.0.0) (2019-09-16)
+
+
+
