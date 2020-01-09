@@ -22,6 +22,7 @@ import '../import-cookies-table.js';
 import '../import-auth-data-table.js';
 import '../import-url-history-table.js';
 import '../import-websocket-url-history-table.js';
+import '../import-cc-table.js';
 import styles from './InspectorStyles.js';
 /**
  * An element to display tables of import data.
@@ -128,6 +129,7 @@ export class ImportDataInspector extends LitElement {
     result['auth-data'] = this._getTableData('import-auth-data-table');
     result['url-history'] = this._getTableData('import-url-history-table');
     result['websocket-url-history'] = this._getTableData('import-websocket-url-history-table');
+    result['client-certificates'] = this._getTableData('import-cc-table');
     return result;
   }
 
@@ -144,6 +146,7 @@ export class ImportDataInspector extends LitElement {
     ${this._authDataTableTemplate(data, compatibility)}
     ${this._urlsTableTemplate(data, compatibility)}
     ${this._socketUrlsTableTemplate(data, compatibility)}
+    ${this._ccTableTemplate(data, compatibility)}
 
     <section class="form-actions">
       <anypoint-button
@@ -277,6 +280,19 @@ export class ImportDataInspector extends LitElement {
       .data="${items}"
       ?compatibility="${compatibility}"
     ></import-websocket-url-history-table>`;
+  }
+
+  _ccTableTemplate(data, compatibility) {
+    const items = data['client-certificates'];
+    if (!items || !items.length) {
+      return '';
+    }
+    return html`
+    <import-cc-table
+      tabletitle="Client certificates"
+      .data="${items}"
+      ?compatibility="${compatibility}"
+    ></import-cc-table>`;
   }
   /**
    * Fired when the user accepts the import

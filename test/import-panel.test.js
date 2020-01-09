@@ -2,7 +2,6 @@ import { fixture, assert, html, nextFrame } from '@open-wc/testing';
 import '@advanced-rest-client/arc-data-import/arc-data-import.js';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions.js';
 import { DataGenerator } from '@advanced-rest-client/arc-data-generator/arc-data-generator.js';
-// import * as sinon from 'sinon/pkg/sinon-esm.js';
 import { DataTestHelper } from './test-helper.js';
 import '../import-panel.js';
 
@@ -146,7 +145,22 @@ describe('<import-panel>', function() {
         'headers-sets': DataGenerator.generateHeadersSetsData(),
         'cookies': DataGenerator.generateCookiesData(),
         'url-history': DataGenerator.generateUrlsData(),
-        'websocket-url-history': DataGenerator.generateUrlsData()
+        'websocket-url-history': DataGenerator.generateUrlsData(),
+        'client-certificates': [[{
+          name: "Bob pem",
+          type: "pem",
+          dataKey: "2bcf5d24-744b-4002-ad80-5e3b9bfead18",
+          created: 1577999288834,
+          _id: "60547629-570a-4b4a-8529-55723cd3f80d",
+        }, {
+          _id: '2bcf5d24-744b-4002-ad80-5e3b9bfead18',
+          cert: {
+            "data": "-----BEGIN CERTIFICATE-----\ntest\n-----END CERTIFICATE-----\n"
+          },
+          key: {
+            "data": "-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----\n"
+          },
+        }]]
       };
       document.body.addEventListener('import-data', importCallback);
     });

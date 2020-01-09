@@ -33,7 +33,22 @@ describe('<import-data-inspector>', function() {
       'websocket-url-history': DataGenerator.generateUrlsData({
         size: 5
       }),
-      'auth-data': [{ _id: 'test', encoded: 'test' }]
+      'auth-data': [{ _id: 'test', encoded: 'test' }],
+      'client-certificates': [[{
+        name: "Bob pem",
+        type: "pem",
+        dataKey: "2bcf5d24-744b-4002-ad80-5e3b9bfead18",
+        created: 1577999288834,
+        _id: "60547629-570a-4b4a-8529-55723cd3f80d",
+      }, {
+        _id: '2bcf5d24-744b-4002-ad80-5e3b9bfead18',
+        cert: {
+          "data": "-----BEGIN CERTIFICATE-----\ntest\n-----END CERTIFICATE-----\n"
+        },
+        key: {
+          "data": "-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----\n"
+        },
+      }]]
     };
   }
 
@@ -106,6 +121,12 @@ describe('<import-data-inspector>', function() {
       assert.ok(node, 'table is rendered');
       assert.typeOf(node.data, 'array', 'table has data');
     });
+
+    it('renders client certificates table', () => {
+      const node = element.shadowRoot.querySelector('import-cc-table');
+      assert.ok(node, 'table is rendered');
+      assert.typeOf(node.data, 'array', 'table has data');
+    });
   });
 
   describe('_getTableData()', function() {
@@ -151,7 +172,7 @@ describe('<import-data-inspector>', function() {
 
     it('Has all data', function() {
       result = element.collectData();
-      assert.lengthOf(Object.keys(result), 12);
+      assert.lengthOf(Object.keys(result), 13);
     });
 
     it('Will contain partial import', function() {
