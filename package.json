@@ -1,7 +1,7 @@
 {
   "name": "@advanced-rest-client/import-panel",
   "description": "The import data view for Advanced REST CLient",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "Apache-2.0",
   "main": "import-panel.js",
   "keywords": [
