@@ -148,3 +148,46 @@
  [cd3185a](https://github.com/advanced-rest-client/import-panel/commit/cd3185aff21b24ae1b38e7153c93674c30673f0e) by Pawel Psztyc
 
 
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/advanced-rest-client/import-panel/compare/2.0.1...3.0.1) (2020-01-09)
+
+### Build
+
+* bumping version [587c12a](https://github.com/advanced-rest-client/import-panel/commit/587c12a13bfa1495427c3b6dd97bf87d46a8ef4a) by Pawel Psztyc
+
+
+### Update
+
+* updating dependencies [bca1300](https://github.com/advanced-rest-client/import-panel/commit/bca1300b6fb3457ebdb7284f2239d836e6326917) by Pawel Psztyc
+* [ci skip] automated merge master->stage. syncing main branches [b732c67](https://github.com/advanced-rest-client/import-panel/commit/b732c67de299635806f54f568087c48990137e32) by Ci agent
+
+
+### Features
+
+* adding support for client certificates [287077e](https://github.com/advanced-rest-client/import-panel/commit/287077e3fdf6e0702fd6c238a571194b3a368988) by Pawel Psztyc
+
+
+### Refactor
+
+* upgrading to final WC spec and LItElement [ce43fa5](https://github.com/advanced-rest-client/import-panel/commit/ce43fa5275614d2f401f3fdcb81714e015c7f2b4) by Pawel
+
+
+### Testing
+
+* updating test configuration [9c686a4](https://github.com/advanced-rest-client/import-panel/commit/9c686a4adbd536a950527741de272616c09356f3) by Pawel Psztyc
+
+
+### Other
+
+* Update: Upgrading dependencies
+ [fc3f3fd](https://github.com/advanced-rest-client/import-panel/commit/fc3f3fd76692f15851ed25fab2cfe9be1b4735e7) by Pawel Psztyc
+* Fix: Fixing web coverage
+ [c4cff2e](https://github.com/advanced-rest-client/import-panel/commit/c4cff2e19b28991fe6c9fed797c9e5bebb6e2a26) by Pawel Psztyc
+* Update: Updating import paths to match web spec
+ [aaaa761](https://github.com/advanced-rest-client/import-panel/commit/aaaa761ee023fb900d676d75acd83c388532e4bc) by Pawel Psztyc
+* New: Adding NPM ignore file
+ [58d683f](https://github.com/advanced-rest-client/import-panel/commit/58d683f6572fc1aed674287c366b16533cda66ef) by Pawel Psztyc
+* Breaking: Upgrading to Polymer 3
+ [45034f0](https://github.com/advanced-rest-client/import-panel/commit/45034f0fdeb4b2c2028834e8135b6823d5a040f2) by Pawel Psztyc
+
+
