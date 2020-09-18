@@ -2,6 +2,8 @@
 [![Build Status](https://travis-ci.org/advanced-rest-client/import-panel.svg?branch=stage)](https://travis-ci.org/advanced-rest-client/import-panel)
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/advanced-rest-client/import-panel)
 
+> This component is deprecated. Use `arc-ie` module instead.
+
 # import-panel
 
 Data import screen for Advanced REST Client.
